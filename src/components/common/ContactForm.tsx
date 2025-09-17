@@ -1,14 +1,15 @@
 /**
  * @fileoverview Contact form component for Ash Shaw Makeup Portfolio
- * Provides accessible contact form with validation, submission states, and success messages.
- * Features form validation, loading states, simulated email sending, and auto-reset functionality.
+ * Provides accessible contact form with EmailJS integration, validation, and submission states.
+ * Features form validation, loading states, real email sending, and auto-reset functionality.
  *
  * @author Ash Shaw Portfolio Team
- * @version 1.0.0
+ * @version 2.0.0
  */
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { SOCIAL_LINKS } from "./Constants";
+import { sendContactForm, sendContactFormDemo, validateEmailJSConfig, initializeEmailJS, type ContactFormData } from "../../utils/emailService";
 
 /**
  * Props interface for ContactForm component
@@ -21,21 +22,23 @@ interface ContactFormProps {
 }
 
 /**
- * Contact form component with comprehensive validation and submission handling
+ * Contact form component with comprehensive validation and EmailJS integration
  *
  * Features:
  * - Form validation for required fields (name, email, message)
+ * - EmailJS integration for real email sending
  * - Loading state with animated spinner during submission
  * - Success state with personalized thank you message
- * - Simulated email sending to both recipient and user
+ * - Error handling with user-friendly messages
  * - Automatic form reset after successful submission
  * - Accessible form elements with proper labeling
  * - Responsive design with fluid spacing and gradient styling
+ * - Demo mode for development when EmailJS is not configured
  *
  * @param {ContactFormProps} props - Component properties
  * @param {string} [props.className] - Additional CSS classes for styling
  *
- * @returns {JSX.Element} Contact form or success message based on state
+ * @returns {JSX.Element} Contact form, success message, or error state
  *
  * @accessibility
  * - Required field validation with screen reader feedback
@@ -43,6 +46,7 @@ interface ContactFormProps {
  * - Loading state announced to assistive technologies
  * - Focus management during state transitions
  * - High contrast support for form elements
+ * - Error messages properly associated with form fields
  *
  * @example
  * <ContactForm className="max-w-md mx-auto" />
@@ -50,13 +54,29 @@ interface ContactFormProps {
 export function ContactForm({
   className = "",
 }: ContactFormProps) {
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<ContactFormData>({
     name: "",
     email: "",
     message: "",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
+  const [isEmailJSConfigured, setIsEmailJSConfigured] = useState(false);
+
+  // Initialize EmailJS on component mount
+  useEffect(() => {
+    try {
+      const isConfigured = validateEmailJSConfig();
+      if (isConfigured) {
+        initializeEmailJS();
+      }
+      setIsEmailJSConfigured(isConfigured);
+    } catch (error) {
+      // Silently fallback to demo mode
+      setIsEmailJSConfigured(false);
+    }
+  }, []);
 
   /**
    * Handles form field changes and updates state
@@ -72,55 +92,66 @@ export function ContactForm({
       ...formData,
       [e.target.name]: e.target.value,
     });
+    
+    // Clear error when user starts typing
+    if (submitError) {
+      setSubmitError(null);
+    }
   };
 
   /**
-   * Handles form submission with validation and simulated email sending
+   * Handles form submission with validation and EmailJS integration
    *
    * Process:
    * 1. Validates all required fields are filled
    * 2. Sets loading state with visual feedback
-   * 3. Simulates email sending to both recipient and sender
-   * 4. Shows success message for 5 seconds
-   * 5. Automatically resets form to initial state
+   * 3. Sends email using EmailJS service (or demo mode)
+   * 4. Shows success/error message based on result
+   * 5. Automatically resets form after successful submission
    *
    * @param {React.FormEvent} e - Form submission event
-   *
-   * @note In production, replace setTimeout with actual email service integration
    */
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    // Clear any previous errors
+    setSubmitError(null);
 
     if (
-      !formData.name ||
-      !formData.email ||
-      !formData.message
+      !formData.name?.trim() ||
+      !formData.email?.trim() ||
+      !formData.message?.trim()
     ) {
-      alert("Please fill in all fields");
+      setSubmitError("Please fill in all fields");
       return;
     }
 
     setIsSubmitting(true);
 
-    // Simulate form submission with realistic delay
-    setTimeout(() => {
-      // In a real app, you would send the email here
-      console.log("Form submitted:", formData);
-      console.log(`Email sent to ashley@lightspeedwp.agency:`, {
-        subject: `New contact form submission from ${formData.name}`,
-        body: `Name: ${formData.name}\nEmail: ${formData.email}\nMessage: ${formData.message}`,
-      });
-      console.log(`Confirmation sent to ${formData.email}`);
+    try {
+      // Use EmailJS service if configured, otherwise use demo mode
+      const result = isEmailJSConfigured 
+        ? await sendContactForm(formData)
+        : await sendContactFormDemo(formData);
 
+      if (result.success) {
+        setIsSubmitted(true);
+        
+        // Reset form after showing success message
+        setTimeout(() => {
+          setFormData({ name: "", email: "", message: "" });
+          setIsSubmitted(false);
+          setSubmitError(null);
+        }, 8000); // Longer timeout to read the message
+      } else {
+        setSubmitError(result.message || "Failed to send message. Please try again.");
+      }
+    } catch (error) {
+      console.error('Form submission error:', error);
+      setSubmitError("Something went wrong. Please try again later.");
+    } finally {
       setIsSubmitting(false);
-      setIsSubmitted(true);
-
-      // Reset form after showing success message
-      setTimeout(() => {
-        setFormData({ name: "", email: "", message: "" });
-        setIsSubmitted(false);
-      }, 5000);
-    }, 1500);
+    }
   };
 
   if (isSubmitted) {
@@ -155,8 +186,7 @@ export function ContactForm({
             Ash ✨
           </p>
           <p className="text-fluid-sm font-body font-normal text-green-600 mt-fluid-lg italic">
-            A confirmation email has been sent to{" "}
-            {formData.email}
+            A confirmation email will be sent to {formData.email}
           </p>
         </div>
       </div>
@@ -168,6 +198,32 @@ export function ContactForm({
       onSubmit={handleSubmit}
       className={`space-y-5 ${className}`}
     >
+      {/* Error message display */}
+      {submitError && (
+        <div className="bg-gradient-to-r from-red-50 to-pink-50 border-2 border-red-200 rounded-lg p-fluid-md text-center">
+          <div className="flex items-center justify-center gap-fluid-xs">
+            <svg
+              className="w-5 h-5 text-red-600"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+              />
+            </svg>
+            <p className="text-fluid-sm font-body font-medium text-red-700">
+              {submitError}
+            </p>
+          </div>
+        </div>
+      )}
+
+
+      
       <div className="bg-white/70 backdrop-blur-sm rounded-lg border border-white/50 shadow-lg">
         <input
           type="text"
@@ -178,6 +234,7 @@ export function ContactForm({
           required
           disabled={isSubmitting}
           className="w-full px-fluid-lg py-fluid-lg bg-transparent text-fluid-base font-body font-normal text-gray-800 placeholder-gray-600 border-none outline-none rounded-lg disabled:opacity-50"
+          aria-label="Your name"
         />
       </div>
       <div className="bg-white/70 backdrop-blur-sm rounded-lg border border-white/50 shadow-lg">
@@ -190,6 +247,7 @@ export function ContactForm({
           required
           disabled={isSubmitting}
           className="w-full px-fluid-lg py-fluid-lg bg-transparent text-fluid-base font-body font-normal text-gray-800 placeholder-gray-600 border-none outline-none rounded-lg disabled:opacity-50"
+          aria-label="Your email address"
         />
       </div>
       <div className="bg-white/70 backdrop-blur-sm rounded-lg border border-white/50 shadow-lg">
@@ -202,6 +260,7 @@ export function ContactForm({
           required
           disabled={isSubmitting}
           className="w-full px-fluid-lg py-fluid-lg bg-transparent text-fluid-base font-body font-normal text-gray-800 placeholder-gray-600 border-none outline-none resize-none rounded-lg disabled:opacity-50"
+          aria-label="Your message"
         />
       </div>
       <button
