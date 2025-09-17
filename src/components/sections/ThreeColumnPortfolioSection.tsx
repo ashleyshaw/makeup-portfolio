@@ -7,7 +7,7 @@
  */
 
 import React, { useState } from "react";
-import { PortfolioLightbox } from "../ui/portfolioLightbox";
+import { PortfolioLightbox } from "../ui/PortfolioLightbox";
 import { PortfolioCard } from "../ui/PortfolioCard";
 import { SliderCard } from "../ui/SliderCard";
 
