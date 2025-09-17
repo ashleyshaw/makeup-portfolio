@@ -8,7 +8,7 @@
 
 import React, { useState } from "react";
 import { ScrollDownArrow } from "../ui/ScrollDownArrow";
-import { PortfolioLightbox } from "../ui/portfolioLightbox";
+import { PortfolioLightbox } from "../ui/PortfolioLightbox";
 
 /**
  * Hero image interface for lightbox functionality
