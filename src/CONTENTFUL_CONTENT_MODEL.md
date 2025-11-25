@@ -4,8 +4,8 @@
 
 Complete visual documentation of the Contentful CMS content model for Ash Shaw Makeup Portfolio, including content type relationships, field specifications, and data flow diagrams.
 
-**Last Updated:** January 25, 2025  
-**Version:** 1.0.0  
+**Last Updated:** January 25, 2025
+**Version:** 1.0.0
 **Content Types:** 4 Main + 3 Reference Types
 
 ---
@@ -22,18 +22,18 @@ graph TB
         PE[Portfolio Entry]
         BP[Blog Post]
     end
-    
+
     subgraph "Reference Content Types"
         AU[Author]
         JS[Journey Section]
         SL[Service Item]
         PC[Philosophy Card]
     end
-    
+
     subgraph "Media Assets"
         IMG[Images/Media]
     end
-    
+
     HP --> IMG
     HP --> PC
     HP --> PE
@@ -44,13 +44,13 @@ graph TB
     BP --> IMG
     BP --> AU
     AU --> IMG
-    
-    style HP fill:#FF66CC
-    style AP fill:#9933FF
-    style PE fill:#3399FF
-    style BP fill:#32CD32
-    style AU fill:#FFD700
-    style IMG fill:#FF9966
+
+    style HP fill:#C2185B
+    style AP fill:#6A1B9A
+    style PE fill:#1565C0
+    style BP fill:#00796B
+    style AU fill:#E65100
+    style IMG fill:#E65100
 ```
 
 ---
@@ -75,7 +75,7 @@ erDiagram
         string philosophyTitle
         array philosophyCards FK
     }
-    
+
     HOMEPAGE ||--o{ IMAGE : "has hero images"
     HOMEPAGE ||--o{ PHILOSOPHY_CARD : "has philosophy cards"
     HOMEPAGE ||--o{ PORTFOLIO_ENTRY : "references featured"
@@ -96,11 +96,13 @@ erDiagram
 | `philosophyCards` | Reference (Array) | ❌ | [] | Philosophy card entries |
 
 #### **Validation Rules**
+
 - All fields optional with sensible defaults
 - `heroImages` should be array of Contentful media assets
 - `philosophyCards` references separate content entries
 
 #### **Usage in Application**
+
 ```typescript
 const homepage = await getHomepageContent();
 // Used in: HomePage.tsx, HeroLayout.tsx, WhySection.tsx
@@ -130,7 +132,7 @@ erDiagram
         string philosophyQuote
         reference philosophyImage FK
     }
-    
+
     ABOUT_PAGE ||--o| IMAGE : "has hero image"
     ABOUT_PAGE ||--o{ JOURNEY_SECTION : "has journey sections"
     ABOUT_PAGE ||--o{ SERVICE_ITEM : "has service items"
@@ -140,6 +142,7 @@ erDiagram
 #### **Field Specifications**
 
 **Hero Section:**
+
 | Field | Type | Required | Default | Description |
 |-------|------|----------|---------|-------------|
 | `heroTitle` | Text | ❌ | "About Ash Shaw" | Page main heading |
@@ -148,12 +151,14 @@ erDiagram
 | `heroImage` | Media | ❌ | null | Hero section image |
 
 **Journey Section:**
+
 | Field | Type | Required | Default | Description |
 |-------|------|----------|---------|-------------|
 | `journeyTitle` | Text | ❌ | "My Journey" | Journey section heading |
 | `journeySections` | Reference (Array) | ❌ | [] | Timeline sections |
 
 **Services Section:**
+
 | Field | Type | Required | Default | Description |
 |-------|------|----------|---------|-------------|
 | `servicesTitle` | Text | ❌ | "What I Do" | Services heading |
@@ -161,6 +166,7 @@ erDiagram
 | `serviceList` | Reference (Array) | ❌ | [] | Service items |
 
 **Philosophy Section:**
+
 | Field | Type | Required | Default | Description |
 |-------|------|----------|---------|-------------|
 | `philosophyTitle` | Text | ❌ | "My Approach" | Philosophy heading |
@@ -169,11 +175,13 @@ erDiagram
 | `philosophyImage` | Media | ❌ | null | Philosophy section image |
 
 #### **Validation Rules**
+
 - All fields optional with defaults
 - `journeySections` and `serviceList` should reference separate entries
 - `philosophyContent` supports rich text formatting
 
 #### **Usage in Application**
+
 ```typescript
 const aboutContent = await getAboutPageContent();
 // Used in: AboutPage.tsx
@@ -201,7 +209,7 @@ erDiagram
         number displayOrder
         object seo
     }
-    
+
     PORTFOLIO_ENTRY ||--o{ IMAGE : "has gallery images"
     PORTFOLIO_ENTRY ||--o| IMAGE : "has featured image"
 ```
@@ -223,6 +231,7 @@ erDiagram
 | `seo` | Object | ❌ | null | SEO metadata |
 
 #### **Valid Categories**
+
 ```typescript
 const VALID_CATEGORIES = [
   'Festival Makeup',
@@ -234,6 +243,7 @@ const VALID_CATEGORIES = [
 ```
 
 #### **SEO Object Structure**
+
 ```typescript
 {
   metaTitle?: string;
@@ -243,12 +253,14 @@ const VALID_CATEGORIES = [
 ```
 
 #### **Validation Rules**
+
 - `title`, `description`, `category` are required
 - Warns if `images` array is empty
 - `featured` entries appear on homepage
 - `displayOrder` controls sort sequence
 
 #### **Usage in Application**
+
 ```typescript
 const entries = await getPortfolioEntries({ category: 'Festival Makeup' });
 // Used in: PortfolioMainPage.tsx, PortfolioDetailPage.tsx, FeaturedSection.tsx
@@ -278,7 +290,7 @@ erDiagram
         number readingTime
         object seo
     }
-    
+
     BLOG_POST ||--o| AUTHOR : "has author"
     BLOG_POST ||--o| IMAGE : "has featured image"
     BLOG_POST ||--o{ BLOG_POST : "has related posts"
@@ -303,6 +315,7 @@ erDiagram
 | `seo` | Object | ❌ | null | SEO metadata |
 
 #### **SEO Object Structure**
+
 ```typescript
 {
   metaTitle?: string;
@@ -313,17 +326,19 @@ erDiagram
 ```
 
 #### **Validation Rules**
+
 - `title`, `slug`, `excerpt`, `content` are required
 - `slug` must be unique across all posts
 - `published: true` required for public visibility
 - `readingTime` auto-calculated if not provided
 
 #### **Usage in Application**
+
 ```typescript
-const blogData = await getBlogPosts({ 
-  category: 'tutorials', 
-  page: 1, 
-  limit: 6 
+const blogData = await getBlogPosts({
+  category: 'tutorials',
+  page: 1,
+  limit: 6
 });
 // Used in: BlogPage.tsx, BlogPostPage.tsx, BlogPreviewSection.tsx
 ```
@@ -342,11 +357,17 @@ erDiagram
         string id PK
         string name REQUIRED
         string bio
-        reference avatar FK
+        string avatarId FK
         string email
-        array socialLinks
+        string socialLinks
     }
-    
+
+    IMAGE {
+        string id PK
+        string url REQUIRED
+        string alt
+    }
+
     AUTHOR ||--o| IMAGE : "has avatar"
 ```
 
@@ -373,7 +394,7 @@ erDiagram
         text description REQUIRED
         reference image FK
     }
-    
+
     JOURNEY_SECTION ||--o| IMAGE : "has section image"
 ```
 
@@ -420,11 +441,11 @@ flowchart LR
     API --> Service[contentfulService.ts]
     Service --> Hook[useHomepageContent]
     Hook --> Comp[HomePage.tsx]
-    
+
     Service --> Validate[Validation Layer]
     Validate --> Transform[Data Transformation]
     Transform --> Hook
-    
+
     style CMS fill:#FF66CC
     style Service fill:#9933FF
     style Hook fill:#3399FF
@@ -443,12 +464,12 @@ stateDiagram-v2
     Updated --> Published: Save Changes
     Published --> Archived: Archive
     Archived --> [*]
-    
+
     note right of Draft
         published: false
         Visible in Preview API only
     end note
-    
+
     note right of Published
         published: true
         Visible to public
@@ -460,24 +481,24 @@ stateDiagram-v2
 ```mermaid
 graph TB
     All[All Portfolio Entries]
-    
+
     All --> Festival[Festival Makeup]
     All --> UV[UV & Blacklight]
     All --> Swiss[Swiss Festivals]
     All --> Nails[Fusion Nails]
     All --> Thailand[Thailand Adventures]
-    
+
     Featured[Featured Entries] --> Festival
     Featured --> UV
     Featured --> Nails
-    
+
     Festival --> HomePage[Homepage Display]
     UV --> HomePage
     Nails --> HomePage
-    
-    style All fill:#FF66CC
-    style Featured fill:#FFD700
-    style HomePage fill:#32CD32
+
+    style All fill:#00796B
+    style Featured fill:#6A1B9A
+    style HomePage fill:#1565C0
 ```
 
 ---
@@ -494,11 +515,11 @@ sequenceDiagram
     participant Validate as Validation Layer
     participant API as Contentful API
     participant Cache as Static Fallback
-    
+
     UI->>Hook: Request Content
     Hook->>Service: getPortfolioEntries()
     Service->>API: Fetch from Contentful
-    
+
     alt Contentful Available
         API-->>Service: Raw Entries
         Service->>Validate: Validate Entries
@@ -510,7 +531,7 @@ sequenceDiagram
         Cache-->>Service: Static Entries
         Service-->>Hook: Fallback Data
     end
-    
+
     Hook-->>UI: Display Content
 ```
 
@@ -521,22 +542,22 @@ flowchart LR
     Raw[Raw Contentful Entry] --> Validate{Validation}
     Validate -->|Valid| Transform[Transform Data]
     Validate -->|Invalid| Fallback[Use Static Data]
-    
+
     Transform --> Asset[Transform Assets]
     Transform --> Rich[Process Rich Text]
     Transform --> Ref[Resolve References]
-    
+
     Asset --> Final[Final App Format]
     Rich --> Final
     Ref --> Final
     Fallback --> Final
-    
+
     Final --> Cache[Cache Result]
     Cache --> Component[React Component]
-    
-    style Validate fill:#FFD700
-    style Transform fill:#3399FF
-    style Final fill:#32CD32
+
+    style Validate fill:#6A1B9A
+    style Transform fill:#00796B
+    style Final fill:#E65100
 ```
 
 ---
@@ -605,12 +626,14 @@ createdDate: string; // Timestamp
 ### **1. Content Organization**
 
 ✅ **DO:**
+
 - Use clear, descriptive field names
 - Group related fields logically
 - Set appropriate field requirements
 - Provide helpful field descriptions
 
 ❌ **DON'T:**
+
 - Create deeply nested structures
 - Use ambiguous field names
 - Make everything required
@@ -619,12 +642,14 @@ createdDate: string; // Timestamp
 ### **2. Media Management**
 
 ✅ **DO:**
+
 - Use descriptive asset titles
 - Add alt text for accessibility
 - Optimize images before upload
 - Use appropriate image formats
 
 ❌ **DON'T:**
+
 - Upload huge unoptimized images
 - Skip alt text descriptions
 - Use generic filenames
@@ -633,12 +658,14 @@ createdDate: string; // Timestamp
 ### **3. Content Relationships**
 
 ✅ **DO:**
+
 - Use references for reusable content
 - Limit circular references
 - Document relationship purposes
 - Plan for content reuse
 
 ❌ **DON'T:**
+
 - Duplicate content across entries
 - Create overly complex relationships
 - Reference deleted entries
@@ -647,12 +674,14 @@ createdDate: string; // Timestamp
 ### **4. SEO Optimization**
 
 ✅ **DO:**
+
 - Provide unique meta titles
 - Write compelling descriptions
 - Use relevant keywords
 - Add social sharing images
 
 ❌ **DON'T:**
+
 - Duplicate meta descriptions
 - Stuff keywords
 - Exceed character limits
@@ -714,10 +743,10 @@ createdDate: string; // Timestamp
 
 ## 📚 Additional Resources
 
-- **Contentful Documentation:** https://www.contentful.com/developers/docs/
-- **Content Modeling Guide:** https://www.contentful.com/developers/docs/concepts/data-model/
-- **API Reference:** https://www.contentful.com/developers/docs/references/content-delivery-api/
-- **Migration Tools:** https://github.com/contentful/contentful-migration
+- **Contentful Documentation:** <https://www.contentful.com/developers/docs/>
+- **Content Modeling Guide:** <https://www.contentful.com/developers/docs/concepts/data-model/>
+- **API Reference:** <https://www.contentful.com/developers/docs/references/content-delivery-api/>
+- **Migration Tools:** <https://github.com/contentful/contentful-migration>
 
 ---
 
@@ -725,19 +754,19 @@ createdDate: string; // Timestamp
 
 This content model provides:
 
-✅ **4 main content types** for complete site management  
-✅ **4 reference types** for modular content reuse  
-✅ **Flexible field structure** with sensible defaults  
-✅ **Rich media support** with optimization  
-✅ **SEO optimization** built-in  
-✅ **Validation rules** for data integrity  
-✅ **Clear relationships** between content types  
-✅ **Static fallbacks** for development  
+✅ **4 main content types** for complete site management
+✅ **4 reference types** for modular content reuse
+✅ **Flexible field structure** with sensible defaults
+✅ **Rich media support** with optimization
+✅ **SEO optimization** built-in
+✅ **Validation rules** for data integrity
+✅ **Clear relationships** between content types
+✅ **Static fallbacks** for development
 
 The content model is designed for flexibility, scalability, and ease of use while maintaining data integrity through comprehensive validation.
 
 ---
 
-**Last Updated:** January 25, 2025  
-**Maintained by:** Ash Shaw Portfolio Team  
+**Last Updated:** January 25, 2025
+**Maintained by:** Ash Shaw Portfolio Team
 **Version:** 1.0.0
