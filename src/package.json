@@ -29,7 +29,8 @@
     "clsx": "latest",
     "tailwind-merge": "latest",
     "web-vitals": "^3.5.0",
-    "@emailjs/browser": "^4.3.3"
+    "@emailjs/browser": "^4.3.3",
+    "contentful": "^10.6.21"
   },
   "devDependencies": {
     "@types/react": "^18.2.66",

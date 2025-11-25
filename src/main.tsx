@@ -10,6 +10,14 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App.tsx';
 import './styles/globals.css';
+import { SafetyWrapper } from './components/common/SafetyWrapper';
+
+// Initialize aggressive extension error suppression immediately
+import('./utils/extensionErrorSuppressor').then(({ initializeExtensionErrorSuppression }) => {
+  initializeExtensionErrorSuppression();
+}).catch(() => {
+  // Silently fail if module not available
+});
 
 // Ensure we have a root element
 const rootElement = document.getElementById('root');
@@ -23,7 +31,9 @@ const root = ReactDOM.createRoot(rootElement);
 
 root.render(
   <React.StrictMode>
-    <App />
+    <SafetyWrapper debug={import.meta.env.DEV}>
+      <App />
+    </SafetyWrapper>
   </React.StrictMode>
 );
 

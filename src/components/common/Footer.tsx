@@ -70,7 +70,11 @@ export function Footer({ setCurrentPage }: FooterProps) {
   return (
     <section
       id="contact"
-      className="relative bg-gradient-to-br from-gray-50 via-purple-50 to-pink-50 py-fluid-3xl px-fluid-xl"
+      className="relative bg-gradient-to-br from-gray-50 via-purple-50 to-pink-50 px-fluid-md"
+      style={{
+        paddingTop: 'clamp(2rem, 8vh, 4rem)',
+        paddingBottom: 'clamp(2rem, 8vh, 4rem)'
+      }}
     >
       {/* Background decoration - responsive */}
       <div
@@ -83,51 +87,51 @@ export function Footer({ setCurrentPage }: FooterProps) {
       ></div>
 
       <div className="max-w-7xl mx-auto relative z-10">
-        <div className="flex flex-col lg:flex-row gap-fluid-2xl">
+        <div className="flex flex-col lg:flex-row gap-fluid-xl">
           <div className="flex-1">
-            <h2 className="text-fluid-4xl sm:text-fluid-5xl font-heading font-bold bg-gradient-to-r from-gray-800 to-purple-600 bg-clip-text text-transparent mb-fluid-lg">
+            <h2 className="text-section-h2 font-heading font-bold text-gradient-blue-teal-green mb-fluid-sm">
               About Ash
             </h2>
-            <p className="text-fluid-lg sm:text-fluid-xl font-body font-normal text-gray-600 leading-relaxed mb-fluid-lg">
+            <p className="text-body-guideline font-body font-normal text-gray-600 leading-relaxed mb-fluid-sm">
               I'm Ash Shaw, a makeup artist who started this
               journey in 2019. Over the years, my work has grown
               from festival artistry to UV explorations, mousse
               palettes, and Fusion Nails.
             </p>
-            <p className="text-fluid-xl sm:text-fluid-2xl font-body font-medium bg-gradient-to-r from-pink-500 to-purple-500 bg-clip-text text-transparent mb-fluid-xl">
+            <p className="text-quote-large font-body font-medium text-gradient-pink-purple-blue mb-fluid-lg">
               Makeup that shines with colour, energy, and
               connection.
             </p>
-            <div className="mb-fluid-xl">
-              <h3 className="text-fluid-2xl sm:text-fluid-3xl font-heading font-semibold text-gray-800 mb-fluid-lg">
+            <div className="mb-fluid-lg">
+              <h3 className="text-fluid-2xl font-heading font-semibold text-gray-800 mb-fluid-sm">
                 Get in Touch
               </h3>
-              <p className="text-fluid-lg sm:text-fluid-xl font-body font-normal text-gray-600 leading-relaxed">
+              <p className="text-body-guideline font-body font-normal text-gray-600 leading-relaxed">
                 I'd love to hear from you — whether you want to
                 collaborate, connect, or just share some love.
               </p>
             </div>
           </div>
           <div className="flex-1 max-w-md">
-            <h3 className="text-fluid-3xl sm:text-fluid-4xl font-heading font-bold bg-gradient-to-r from-gray-800 to-pink-600 bg-clip-text text-transparent mb-fluid-xl">
+            <h2 className="text-section-h2 font-heading font-bold text-gradient-gold-peach-coral mb-fluid-sm">
               Contact Form
-            </h3>
+            </h2>
             <ContactForm />
           </div>
         </div>
 
         {/* Separator line with generous spacing above and below */}
-        <div className="mt-fluid-3xl mb-fluid-2xl">
+        <div className="mt-fluid-xl mb-fluid-lg">
           <div className="w-full h-px bg-gradient-to-r from-pink-200 via-purple-200 to-blue-200"></div>
         </div>
 
         {/* Bottom row with logo left and social icons right */}
-        <div className="flex flex-col sm:flex-row justify-between items-center gap-fluid-lg">
+        <div className="flex flex-col sm:flex-row justify-between items-center gap-fluid-md">
           <div
             className="order-2 sm:order-1 cursor-pointer transform hover:scale-105 transition-transform duration-300"
             onClick={handleLogoClick}
           >
-            <Logo size="sm" />
+            <Logo size="xl" />
           </div>
           <SocialLinks className="order-1 sm:order-2" />
         </div>

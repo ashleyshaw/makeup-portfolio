@@ -99,12 +99,12 @@ export function OneColumnLayout({
   };
 
   const paddingClasses = {
-    sm: "py-fluid-sm px-fluid-xl",
-    md: "py-fluid-md px-fluid-xl",
-    lg: "py-fluid-lg px-fluid-xl",
-    xl: "py-fluid-xl px-fluid-xl",
-    "2xl": "py-fluid-2xl px-fluid-xl",
-    "3xl": "py-fluid-3xl px-fluid-xl",
+    sm: "py-fluid-sm px-fluid-md",
+    md: "py-fluid-md px-fluid-md",
+    lg: "py-fluid-lg px-fluid-md",
+    xl: "py-fluid-xl px-fluid-md",
+    "2xl": "py-fluid-2xl px-fluid-md",
+    "3xl": "py-fluid-3xl px-fluid-md",
   };
 
   const textAlignClasses = {

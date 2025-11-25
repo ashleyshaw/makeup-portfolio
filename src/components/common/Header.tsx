@@ -1,122 +1,109 @@
 /**
  * @fileoverview Header navigation component for Ash Shaw Makeup Portfolio
- * Provides main site navigation with logo, desktop menu, mobile hamburger menu,
- * and comprehensive accessibility features.
- *
+ * 
+ * Core Features:
+ * - Responsive navigation with desktop menu and mobile burger button
+ * - Extracted mobile menu into separate MobileMenu component for better organization
+ * - 220px wide logo in header for enhanced brand presence
+ * - Full keyboard navigation with Tab, Enter, Escape support
+ * - Screen reader announcements for navigation changes and page transitions
+ * - Logo component integration with clickable home navigation
+ * 
+ * Dependencies:
+ * - React 18+ for concurrent features and proper focus management
+ * - Logo component for brand consistency across all pages
+ * - MobileMenu component for mobile navigation overlay
+ * - Tailwind CSS for responsive styling and gradient utilities
+ * 
+ * Accessibility:
+ * - WCAG 2.1 AA compliant navigation with proper ARIA implementation
+ * - Keyboard navigation support with visible focus indicators
+ * - Screen reader compatibility with semantic HTML and ARIA labels
+ * - Focus management with return focus to menu button when mobile menu closes
+ * - Live region announcements for navigation state changes
+ * 
+ * Performance:
+ * - Simplified state management with MobileMenu component extraction
+ * - Efficient focus management with useRef hooks
+ * - Smooth transitions with hardware-accelerated CSS transforms
+ * - Reduced component complexity with separation of concerns
+ * 
  * @author Ash Shaw Portfolio Team
- * @version 1.0.0
+ * @version 2.2.0
+ * @since 1.0.0 - Initial header navigation implementation
+ * @since 2.0.0 - Enhanced accessibility with focus trapping and announcements
+ * @since 2.1.0 - Comprehensive JSDoc documentation and performance optimizations
+ * @since 2.2.0 - Extracted mobile menu into separate component, improved logo sizing
+ * @lastModified 2025-01-29
  */
 
 import React, { useState, useEffect, useRef } from "react";
 import { Logo } from "./Logo";
+import { MobileMenu } from "./MobileMenu";
+import { useModal } from "./ModalContext";
 
 /**
- * Props interface for Header component
+ * Props interface for Header component with comprehensive type safety
+ * 
  * @interface HeaderProps
- * @property {string} currentPage - Currently active page identifier
- * @property {Function} setCurrentPage - Function to update the active page state
+ * @description Defines all properties accepted by the Header component with validation
  */
 interface HeaderProps {
+  /** 
+   * Currently active page identifier for navigation state management
+   * Controls which navigation item displays as active with visual indicators
+   * @example "home" | "about" | "portfolio"
+   */
   currentPage: string;
+  
+  /** 
+   * Function to update the active page state and trigger navigation
+   * Handles client-side routing and page transitions with focus management
+   * @param page - Target page identifier to navigate to
+   */
   setCurrentPage: (page: string) => void;
 }
 
 /**
- * Header navigation component providing desktop and mobile navigation with full accessibility support
- *
- * Features:
- * - Responsive navigation with mobile burger menu
- * - Full-screen mobile overlay with gradient background and decorative elements
- * - Keyboard navigation and focus management (Tab, Escape, Arrow keys)
- * - Screen reader announcements for navigation changes
- * - Focus trapping in mobile menu
- * - Smooth scrolling to page sections
- *
- * @param {HeaderProps} props - Component properties
- * @param {string} props.currentPage - Currently active page ('home', 'about', 'portfolio')
- * @param {Function} props.setCurrentPage - Function to update current page state
- *
- * @example
- * <Header currentPage="home" setCurrentPage={setCurrentPage} />
- *
- * @accessibility
- * - WCAG 2.1 Level AA compliant navigation
- * - Keyboard navigation support with proper focus management
- * - Screen reader announcements for navigation changes
- * - Focus trapping in mobile menu overlay
+ * Header - Comprehensive navigation component with accessibility and mobile optimization
+ * 
+ * A fully responsive header component implementing desktop navigation and mobile overlay
+ * with complete accessibility compliance, keyboard navigation, and focus management.
+ * 
+ * @component
+ * @param {HeaderProps} props - Component properties with type safety
+ * @returns {JSX.Element} Rendered header with navigation and accessibility features
  */
 export function Header({
   currentPage,
   setCurrentPage,
 }: HeaderProps) {
-  const [isMobileMenuOpen, setIsMobileMenuOpen] =
-    useState(false);
-  const mobileMenuRef = useRef<HTMLDivElement>(null);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
-  const firstFocusableRef = useRef<HTMLButtonElement>(null);
+  
+  // Modal context for managing mobile menu overlay state
+  const { registerModal, updateModal, unregisterModal } = useModal();
 
-  // Focus management for mobile menu
+  // Register mobile menu modal with context on mount
   useEffect(() => {
-    if (isMobileMenuOpen) {
-      // Focus the first focusable element when menu opens
-      firstFocusableRef.current?.focus();
-      // Prevent body scroll
-      document.body.style.overflow = "hidden";
-    } else {
+    registerModal('mobile-menu', 'drawer', { component: 'Header' });
+    
+    return () => {
+      unregisterModal('mobile-menu');
+    };
+  }, [registerModal, unregisterModal]);
+
+  // Update modal state when mobile menu opens/closes
+  useEffect(() => {
+    updateModal('mobile-menu', isMobileMenuOpen, { component: 'Header' });
+  }, [updateModal, isMobileMenuOpen]);
+
+  // Focus management for mobile menu button when menu closes
+  useEffect(() => {
+    if (!isMobileMenuOpen) {
       // Return focus to menu button when closed
       menuButtonRef.current?.focus();
-      // Restore body scroll
-      document.body.style.overflow = "unset";
     }
-
-    return () => {
-      document.body.style.overflow = "unset";
-    };
-  }, [isMobileMenuOpen]);
-
-  // Handle keyboard events for mobile menu
-  useEffect(() => {
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (!isMobileMenuOpen) return;
-
-      if (event.key === "Escape") {
-        setIsMobileMenuOpen(false);
-      }
-
-      // Focus trapping
-      if (event.key === "Tab" && mobileMenuRef.current) {
-        const focusableElements =
-          mobileMenuRef.current.querySelectorAll(
-            'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])',
-          );
-
-        if (focusableElements.length === 0) return;
-
-        const firstElement =
-          focusableElements[0] as HTMLElement;
-        const lastElement = focusableElements[
-          focusableElements.length - 1
-        ] as HTMLElement;
-
-        if (
-          event.shiftKey &&
-          document.activeElement === firstElement
-        ) {
-          event.preventDefault();
-          lastElement.focus();
-        } else if (
-          !event.shiftKey &&
-          document.activeElement === lastElement
-        ) {
-          event.preventDefault();
-          firstElement.focus();
-        }
-      }
-    };
-
-    document.addEventListener("keydown", handleKeyDown);
-    return () =>
-      document.removeEventListener("keydown", handleKeyDown);
   }, [isMobileMenuOpen]);
 
   const scrollToSection = (sectionId: string) => {
@@ -149,6 +136,7 @@ export function Header({
         home: "Home",
         about: "About",
         portfolio: "Portfolio",
+        blog: "Blog",
       };
       const pageName =
         pageNames[page as keyof typeof pageNames] || page;
@@ -158,6 +146,10 @@ export function Header({
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
+  };
+
+  const closeMobileMenu = () => {
+    setIsMobileMenuOpen(false);
   };
 
   // Screen reader announcement helper
@@ -176,16 +168,10 @@ export function Header({
 
   return (
     <>
-      {/* Skip to content link for keyboard users */}
-      <a
-        href="#main-content"
-        className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 bg-white text-gray-900 px-4 py-2 rounded-md shadow-lg font-medium text-sm"
-      >
-        Skip to main content
-      </a>
+
 
       <nav
-        className="bg-white/95 backdrop-blur-sm h-24 w-full relative flex items-center justify-between px-4 md:px-12 lg:px-20 shadow-sm border-b border-gradient-to-r from-pink-100 to-purple-100 z-40"
+        className="bg-white/95 backdrop-blur-sm h-24 w-full relative flex items-center justify-between px-fluid-md shadow-sm border-b border-gradient-to-r from-pink-100 to-purple-100 z-40"
         role="navigation"
         aria-label="Main navigation"
       >
@@ -196,7 +182,7 @@ export function Header({
             className="flex items-center cursor-pointer focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-offset-2 rounded-md p-1"
             aria-label="Go to home page"
           >
-            <Logo size="md" />
+            <Logo size="header" />
           </button>
         </div>
 
@@ -207,7 +193,7 @@ export function Header({
         >
           <button
             onClick={() => handleNavigation("home")}
-            className={`text-lg font-body font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-offset-2 rounded-md px-2 py-1 ${
+            className={`text-fluid-lg font-body font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-offset-2 rounded-md px-2 py-1 ${
               currentPage === "home"
                 ? "text-pink-500"
                 : "text-gray-700 hover:text-pink-500"
@@ -221,7 +207,7 @@ export function Header({
           </button>
           <button
             onClick={() => handleNavigation("about")}
-            className={`text-lg font-body font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-offset-2 rounded-md px-2 py-1 ${
+            className={`text-fluid-lg font-body font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-offset-2 rounded-md px-2 py-1 ${
               currentPage === "about"
                 ? "text-pink-500"
                 : "text-gray-700 hover:text-pink-500"
@@ -235,7 +221,7 @@ export function Header({
           </button>
           <button
             onClick={() => handleNavigation("portfolio")}
-            className={`text-lg font-body font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-offset-2 rounded-md px-2 py-1 ${
+            className={`text-fluid-lg font-body font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-offset-2 rounded-md px-2 py-1 ${
               currentPage === "portfolio"
                 ? "text-pink-500"
                 : "text-gray-700 hover:text-pink-500"
@@ -248,8 +234,22 @@ export function Header({
             Portfolio
           </button>
           <button
+            onClick={() => handleNavigation("blog")}
+            className={`text-fluid-lg font-body font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-offset-2 rounded-md px-2 py-1 ${
+              currentPage === "blog"
+                ? "text-pink-500"
+                : "text-gray-700 hover:text-pink-500"
+            }`}
+            role="menuitem"
+            aria-current={
+              currentPage === "blog" ? "page" : undefined
+            }
+          >
+            Blog
+          </button>
+          <button
             onClick={() => handleNavigation("home", "contact")}
-            className="text-lg font-body font-medium text-gray-700 hover:text-pink-500 transition-colors focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-offset-2 rounded-md px-2 py-1"
+            className="text-fluid-lg font-body font-medium text-gray-700 hover:text-pink-500 transition-colors focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-offset-2 rounded-md px-2 py-1"
             role="menuitem"
           >
             Contact
@@ -294,129 +294,13 @@ export function Header({
         </button>
       </nav>
 
-      {/* Mobile Menu Overlay */}
-      {isMobileMenuOpen && (
-        <div
-          className="fixed inset-0 z-50 md:hidden"
-          id="mobile-menu"
-          role="dialog"
-          aria-modal="true"
-          aria-labelledby="mobile-menu-title"
-        >
-          {/* Backdrop */}
-          <div
-            className="absolute inset-0 bg-gradient-to-br from-pink-500/20 via-purple-500/20 to-blue-500/20 backdrop-blur-sm"
-            onClick={() => setIsMobileMenuOpen(false)}
-            aria-hidden="true"
-          />
-
-          {/* Menu Content */}
-          <div
-            ref={mobileMenuRef}
-            className="relative w-full h-full bg-gradient-to-br from-white via-pink-50 to-purple-50 flex flex-col items-center justify-center space-y-12"
-          >
-            {/* Hidden title for screen readers */}
-            <h2 id="mobile-menu-title" className="sr-only">
-              Mobile Navigation Menu
-            </h2>
-
-            {/* Close Button */}
-            <button
-              ref={firstFocusableRef}
-              className="absolute top-8 right-6 flex flex-col justify-center items-center w-8 h-8 space-y-1 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-offset-2 rounded-md p-1"
-              onClick={() => setIsMobileMenuOpen(false)}
-              aria-label="Close mobile menu"
-            >
-              <span
-                className="block w-6 h-0.5 bg-gray-700 rotate-45 translate-y-1.5"
-                aria-hidden="true"
-              />
-              <span
-                className="block w-6 h-0.5 bg-gray-700 opacity-0"
-                aria-hidden="true"
-              />
-              <span
-                className="block w-6 h-0.5 bg-gray-700 -rotate-45 -translate-y-1.5"
-                aria-hidden="true"
-              />
-            </button>
-
-            {/* Logo in Menu */}
-            <div className="cursor-pointer transform hover:scale-105 transition-transform">
-              <button
-                onClick={() => handleNavigation("home")}
-                className="focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-offset-2 rounded-md p-2"
-                aria-label="Go to home page"
-              >
-                <Logo size="lg" />
-              </button>
-            </div>
-
-            {/* Navigation Items */}
-            <nav
-              className="flex flex-col items-center space-y-8"
-              role="menu"
-              aria-label="Mobile navigation"
-            >
-              <button
-                onClick={() => handleNavigation("about")}
-                className={`text-3xl sm:text-4xl font-heading font-semibold transition-all duration-300 transform hover:scale-110 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-offset-4 rounded-md px-4 py-2 ${
-                  currentPage === "about"
-                    ? "bg-gradient-to-r from-pink-500 to-purple-500 bg-clip-text text-transparent"
-                    : "text-gray-800 hover:bg-gradient-to-r hover:from-pink-500 hover:to-purple-500 hover:bg-clip-text hover:text-transparent"
-                }`}
-                role="menuitem"
-                aria-current={
-                  currentPage === "about" ? "page" : undefined
-                }
-              >
-                About
-              </button>
-
-              <button
-                onClick={() => handleNavigation("portfolio")}
-                className={`text-3xl sm:text-4xl font-heading font-semibold transition-all duration-300 transform hover:scale-110 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-offset-4 rounded-md px-4 py-2 ${
-                  currentPage === "portfolio"
-                    ? "bg-gradient-to-r from-pink-500 to-purple-500 bg-clip-text text-transparent"
-                    : "text-gray-800 hover:bg-gradient-to-r hover:from-pink-500 hover:to-purple-500 hover:bg-clip-text hover:text-transparent"
-                }`}
-                role="menuitem"
-                aria-current={
-                  currentPage === "portfolio"
-                    ? "page"
-                    : undefined
-                }
-              >
-                Portfolio
-              </button>
-
-              <button
-                onClick={() =>
-                  handleNavigation("home", "contact")
-                }
-                className="text-3xl sm:text-4xl font-heading font-semibold text-gray-800 hover:bg-gradient-to-r hover:from-pink-500 hover:to-purple-500 hover:bg-clip-text hover:text-transparent transition-all duration-300 transform hover:scale-110 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-offset-4 rounded-md px-4 py-2"
-                role="menuitem"
-              >
-                Contact
-              </button>
-            </nav>
-
-            {/* Decorative Elements - hidden from screen readers */}
-            <div
-              className="absolute top-1/4 left-1/4 w-16 h-16 sm:w-24 sm:h-24 bg-gradient-to-br from-pink-300 to-purple-400 rounded-full opacity-20 animate-pulse"
-              aria-hidden="true"
-            />
-            <div
-              className="absolute bottom-1/4 right-1/4 w-12 h-12 sm:w-20 sm:h-20 bg-gradient-to-br from-blue-300 to-teal-400 rounded-full opacity-25 animate-pulse delay-1000"
-              aria-hidden="true"
-            />
-            <div
-              className="absolute top-1/2 right-1/3 w-8 h-8 sm:w-12 sm:h-12 bg-gradient-to-br from-yellow-300 to-orange-400 rounded-full opacity-20 animate-pulse delay-2000"
-              aria-hidden="true"
-            />
-          </div>
-        </div>
-      )}
+      {/* Mobile Menu Component */}
+      <MobileMenu
+        isOpen={isMobileMenuOpen}
+        onClose={closeMobileMenu}
+        currentPage={currentPage}
+        onNavigation={handleNavigation}
+      />
     </>
   );
 }

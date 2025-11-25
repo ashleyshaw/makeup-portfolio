@@ -1,0 +1,2184 @@
+{
+  "contentTypes": [
+    {
+      "sys": {
+        "id": "homePage"
+      },
+      "name": "Home Page",
+      "description": "Homepage content including hero section, philosophy cards, and featured work",
+      "displayField": "title",
+      "fields": [
+        {
+          "id": "title",
+          "name": "Page Title",
+          "type": "Symbol",
+          "localized": false,
+          "required": true,
+          "validations": [
+            {
+              "size": {
+                "min": 10,
+                "max": 100
+              }
+            }
+          ],
+          "disabled": false,
+          "omitted": false,
+          "helpText": "Internal reference for this homepage content"
+        },
+        {
+          "id": "heroTitle",
+          "name": "Hero Main Title",
+          "type": "Symbol",
+          "localized": false,
+          "required": true,
+          "validations": [
+            {
+              "size": {
+                "min": 5,
+                "max": 80
+              }
+            }
+          ],
+          "disabled": false,
+          "omitted": false,
+          "helpText": "Main headline in the hero section (e.g., 'Hi, I'm Ash Shaw')"
+        },
+        {
+          "id": "heroSubtitle",
+          "name": "Hero Subtitle",
+          "type": "Symbol",
+          "localized": false,
+          "required": true,
+          "validations": [
+            {
+              "size": {
+                "min": 5,
+                "max": 100
+              }
+            }
+          ],
+          "disabled": false,
+          "omitted": false,
+          "helpText": "Subtitle below main title (e.g., 'makeup artist')"
+        },
+        {
+          "id": "heroDescription",
+          "name": "Hero Description",
+          "type": "Text",
+          "localized": false,
+          "required": false,
+          "validations": [
+            {
+              "size": {
+                "max": 300
+              }
+            }
+          ],
+          "disabled": false,
+          "omitted": false,
+          "helpText": "Brief description under the hero title and subtitle"
+        },
+        {
+          "id": "heroCtaText",
+          "name": "Hero CTA Button Text",
+          "type": "Symbol",
+          "localized": false,
+          "required": true,
+          "validations": [
+            {
+              "size": {
+                "min": 5,
+                "max": 50
+              }
+            }
+          ],
+          "disabled": false,
+          "omitted": false,
+          "helpText": "Text for the main call-to-action button"
+        },
+        {
+          "id": "heroImages",
+          "name": "Hero Background Images",
+          "type": "Array",
+          "localized": false,
+          "required": false,
+          "validations": [
+            {
+              "size": {
+                "min": 0,
+                "max": 5
+              }
+            }
+          ],
+          "disabled": false,
+          "omitted": false,
+          "items": {
+            "type": "Link",
+            "validations": [
+              {
+                "linkMimetypeGroup": [
+                  "image"
+                ]
+              }
+            ],
+            "linkType": "Asset"
+          },
+          "helpText": "Background images for the hero section mosaic (1-5 images)"
+        },
+        {
+          "id": "philosophyTitle",
+          "name": "Philosophy Section Title",
+          "type": "Symbol",
+          "localized": false,
+          "required": true,
+          "validations": [
+            {
+              "size": {
+                "min": 5,
+                "max": 100
+              }
+            }
+          ],
+          "disabled": false,
+          "omitted": false,
+          "helpText": "Title for the 'Why I Do Makeup' section"
+        },
+        {
+          "id": "philosophyCards",
+          "name": "Philosophy Cards",
+          "type": "Array",
+          "localized": false,
+          "required": false,
+          "validations": [
+            {
+              "size": {
+                "min": 0,
+                "max": 6
+              }
+            }
+          ],
+          "disabled": false,
+          "omitted": false,
+          "items": {
+            "type": "Link",
+            "validations": [],
+            "linkType": "Entry",
+            "linkContentType": [
+              "philosophyCard"
+            ]
+          },
+          "helpText": "Cards explaining why you do makeup (up to 6 cards)"
+        },
+        {
+          "id": "featuredTitle",
+          "name": "Featured Work Section Title",
+          "type": "Symbol",
+          "localized": false,
+          "required": true,
+          "validations": [
+            {
+              "size": {
+                "min": 5,
+                "max": 100
+              }
+            }
+          ],
+          "disabled": false,
+          "omitted": false,
+          "helpText": "Title for the featured work section"
+        },
+        {
+          "id": "featuredDescription",
+          "name": "Featured Work Description",
+          "type": "Text",
+          "localized": false,
+          "required": false,
+          "validations": [
+            {
+              "size": {
+                "max": 300
+              }
+            }
+          ],
+          "disabled": false,
+          "omitted": false,
+          "helpText": "Description for the featured work section"
+        },
+        {
+          "id": "seoTitle",
+          "name": "SEO Page Title",
+          "type": "Symbol",
+          "localized": false,
+          "required": false,
+          "validations": [
+            {
+              "size": {
+                "max": 60
+              }
+            }
+          ],
+          "disabled": false,
+          "omitted": false,
+          "helpText": "SEO optimized page title (max 60 characters)"
+        },
+        {
+          "id": "seoDescription",
+          "name": "SEO Meta Description",
+          "type": "Text",
+          "localized": false,
+          "required": false,
+          "validations": [
+            {
+              "size": {
+                "max": 160
+              }
+            }
+          ],
+          "disabled": false,
+          "omitted": false,
+          "helpText": "SEO meta description (max 160 characters)"
+        }
+      ]
+    },
+    {
+      "sys": {
+        "id": "philosophyCard"
+      },
+      "name": "Philosophy Card",
+      "description": "Individual cards for the 'Why I Do Makeup' section",
+      "displayField": "title",
+      "fields": [
+        {
+          "id": "title",
+          "name": "Card Title",
+          "type": "Symbol",
+          "localized": false,
+          "required": true,
+          "validations": [
+            {
+              "size": {
+                "min": 3,
+                "max": 80
+              }
+            }
+          ],
+          "disabled": false,
+          "omitted": false,
+          "helpText": "Title for this philosophy card"
+        },
+        {
+          "id": "description",
+          "name": "Card Description",
+          "type": "Text",
+          "localized": false,
+          "required": true,
+          "validations": [
+            {
+              "size": {
+                "min": 10,
+                "max": 500
+              }
+            }
+          ],
+          "disabled": false,
+          "omitted": false,
+          "helpText": "Description explaining this philosophy/reason"
+        },
+        {
+          "id": "icon",
+          "name": "Icon Name",
+          "type": "Symbol",
+          "localized": false,
+          "required": false,
+          "validations": [
+            {
+              "in": [
+                "heart",
+                "palette",
+                "lightbulb",
+                "users",
+                "star",
+                "sparkles",
+                "paint-brush",
+                "smile",
+                "music",
+                "sun"
+              ]
+            }
+          ],
+          "disabled": false,
+          "omitted": false,
+          "helpText": "Icon identifier for this card (heart, palette, lightbulb, etc.)"
+        },
+        {
+          "id": "gradient",
+          "name": "Gradient Theme",
+          "type": "Symbol",
+          "localized": false,
+          "required": false,
+          "validations": [
+            {
+              "in": [
+                "pink-purple-blue",
+                "blue-teal-green",
+                "gold-peach-coral",
+                "purple-blue",
+                "green-teal",
+                "orange-red"
+              ]
+            }
+          ],
+          "disabled": false,
+          "omitted": false,
+          "defaultValue": {
+            "en-US": "pink-purple-blue"
+          },
+          "helpText": "Color gradient theme for this card"
+        },
+        {
+          "id": "displayOrder",
+          "name": "Display Order",
+          "type": "Integer",
+          "localized": false,
+          "required": false,
+          "validations": [
+            {
+              "range": {
+                "min": 0,
+                "max": 100
+              }
+            }
+          ],
+          "disabled": false,
+          "omitted": false,
+          "helpText": "Order for displaying cards (0 = first)"
+        }
+      ]
+    },
+    {
+      "sys": {
+        "id": "aboutPage"
+      },
+      "name": "About Page",
+      "description": "About page content including journey sections and personal story",
+      "displayField": "title",
+      "fields": [
+        {
+          "id": "title",
+          "name": "Page Title",
+          "type": "Symbol",
+          "localized": false,
+          "required": true,
+          "validations": [
+            {
+              "size": {
+                "min": 10,
+                "max": 100
+              }
+            }
+          ],
+          "disabled": false,
+          "omitted": false,
+          "helpText": "Internal reference for this about page content"
+        },
+        {
+          "id": "heroTitle",
+          "name": "Hero Title",
+          "type": "Symbol",
+          "localized": false,
+          "required": true,
+          "validations": [
+            {
+              "size": {
+                "min": 5,
+                "max": 100
+              }
+            }
+          ],
+          "disabled": false,
+          "omitted": false,
+          "helpText": "Main title for the about page hero section"
+        },
+        {
+          "id": "heroSubtitle",
+          "name": "Hero Subtitle",
+          "type": "Symbol",
+          "localized": false,
+          "required": false,
+          "validations": [
+            {
+              "size": {
+                "max": 150
+              }
+            }
+          ],
+          "disabled": false,
+          "omitted": false,
+          "helpText": "Subtitle for the about page hero"
+        },
+        {
+          "id": "heroDescription",
+          "name": "Hero Description",
+          "type": "Text",
+          "localized": false,
+          "required": false,
+          "validations": [
+            {
+              "size": {
+                "max": 500
+              }
+            }
+          ],
+          "disabled": false,
+          "omitted": false,
+          "helpText": "Brief introduction in the hero section"
+        },
+        {
+          "id": "heroImage",
+          "name": "Hero Image",
+          "type": "Link",
+          "localized": false,
+          "required": false,
+          "validations": [
+            {
+              "linkMimetypeGroup": [
+                "image"
+              ]
+            }
+          ],
+          "disabled": false,
+          "omitted": false,
+          "linkType": "Asset",
+          "helpText": "Main hero image for the about page"
+        },
+        {
+          "id": "journeyTitle",
+          "name": "Journey Section Title",
+          "type": "Symbol",
+          "localized": false,
+          "required": true,
+          "validations": [
+            {
+              "size": {
+                "min": 5,
+                "max": 100
+              }
+            }
+          ],
+          "disabled": false,
+          "omitted": false,
+          "helpText": "Title for the journey/timeline section"
+        },
+        {
+          "id": "journeySections",
+          "name": "Journey Timeline Sections",
+          "type": "Array",
+          "localized": false,
+          "required": false,
+          "validations": [
+            {
+              "size": {
+                "min": 0,
+                "max": 10
+              }
+            }
+          ],
+          "disabled": false,
+          "omitted": false,
+          "items": {
+            "type": "Link",
+            "validations": [],
+            "linkType": "Entry",
+            "linkContentType": [
+              "journeySection"
+            ]
+          },
+          "helpText": "Timeline sections of your makeup artistry journey"
+        },
+        {
+          "id": "servicesTitle",
+          "name": "Services Section Title",
+          "type": "Symbol",
+          "localized": false,
+          "required": false,
+          "validations": [
+            {
+              "size": {
+                "max": 100
+              }
+            }
+          ],
+          "disabled": false,
+          "omitted": false,
+          "helpText": "Title for the services section"
+        },
+        {
+          "id": "servicesDescription",
+          "name": "Services Description",
+          "type": "Text",
+          "localized": false,
+          "required": false,
+          "validations": [
+            {
+              "size": {
+                "max": 500
+              }
+            }
+          ],
+          "disabled": false,
+          "omitted": false,
+          "helpText": "Description for the services section"
+        },
+        {
+          "id": "serviceList",
+          "name": "Services Offered",
+          "type": "Array",
+          "localized": false,
+          "required": false,
+          "validations": [
+            {
+              "size": {
+                "min": 0,
+                "max": 10
+              }
+            }
+          ],
+          "disabled": false,
+          "omitted": false,
+          "items": {
+            "type": "Link",
+            "validations": [],
+            "linkType": "Entry",
+            "linkContentType": [
+              "service"
+            ]
+          },
+          "helpText": "List of services you offer"
+        },
+        {
+          "id": "philosophyTitle",
+          "name": "Philosophy Section Title",
+          "type": "Symbol",
+          "localized": false,
+          "required": false,
+          "validations": [
+            {
+              "size": {
+                "max": 100
+              }
+            }
+          ],
+          "disabled": false,
+          "omitted": false,
+          "helpText": "Title for the philosophy section"
+        },
+        {
+          "id": "philosophyContent",
+          "name": "Philosophy Content",
+          "type": "RichText",
+          "localized": false,
+          "required": false,
+          "validations": [],
+          "disabled": false,
+          "omitted": false,
+          "helpText": "Rich text content for your philosophy and approach"
+        },
+        {
+          "id": "philosophyQuote",
+          "name": "Philosophy Quote",
+          "type": "Text",
+          "localized": false,
+          "required": false,
+          "validations": [
+            {
+              "size": {
+                "max": 300
+              }
+            }
+          ],
+          "disabled": false,
+          "omitted": false,
+          "helpText": "Featured quote about your philosophy"
+        },
+        {
+          "id": "philosophyImage",
+          "name": "Philosophy Image",
+          "type": "Link",
+          "localized": false,
+          "required": false,
+          "validations": [
+            {
+              "linkMimetypeGroup": [
+                "image"
+              ]
+            }
+          ],
+          "disabled": false,
+          "omitted": false,
+          "linkType": "Asset",
+          "helpText": "Image for the philosophy section"
+        }
+      ]
+    },
+    {
+      "sys": {
+        "id": "journeySection"
+      },
+      "name": "Journey Section",
+      "description": "Individual timeline sections for the about page journey",
+      "displayField": "title",
+      "fields": [
+        {
+          "id": "year",
+          "name": "Year",
+          "type": "Symbol",
+          "localized": false,
+          "required": true,
+          "validations": [
+            {
+              "size": {
+                "min": 4,
+                "max": 20
+              }
+            }
+          ],
+          "disabled": false,
+          "omitted": false,
+          "helpText": "Year or time period for this section (e.g., '2019', '2020-2021')"
+        },
+        {
+          "id": "title",
+          "name": "Section Title",
+          "type": "Symbol",
+          "localized": false,
+          "required": true,
+          "validations": [
+            {
+              "size": {
+                "min": 5,
+                "max": 150
+              }
+            }
+          ],
+          "disabled": false,
+          "omitted": false,
+          "helpText": "Title for this part of your journey"
+        },
+        {
+          "id": "description",
+          "name": "Description",
+          "type": "RichText",
+          "localized": false,
+          "required": true,
+          "validations": [],
+          "disabled": false,
+          "omitted": false,
+          "helpText": "Detailed description of this journey phase"
+        },
+        {
+          "id": "image",
+          "name": "Section Image",
+          "type": "Link",
+          "localized": false,
+          "required": false,
+          "validations": [
+            {
+              "linkMimetypeGroup": [
+                "image"
+              ]
+            }
+          ],
+          "disabled": false,
+          "omitted": false,
+          "linkType": "Asset",
+          "helpText": "Image representing this journey section"
+        },
+        {
+          "id": "theme",
+          "name": "Section Theme",
+          "type": "Symbol",
+          "localized": false,
+          "required": false,
+          "validations": [
+            {
+              "in": [
+                "pink-purple-blue",
+                "blue-teal-green",
+                "gold-peach-coral",
+                "purple-blue",
+                "green-teal",
+                "orange-red"
+              ]
+            }
+          ],
+          "disabled": false,
+          "omitted": false,
+          "defaultValue": {
+            "en-US": "pink-purple-blue"
+          },
+          "helpText": "Color theme for this section"
+        },
+        {
+          "id": "displayOrder",
+          "name": "Display Order",
+          "type": "Integer",
+          "localized": false,
+          "required": false,
+          "validations": [
+            {
+              "range": {
+                "min": 0,
+                "max": 100
+              }
+            }
+          ],
+          "disabled": false,
+          "omitted": false,
+          "helpText": "Order for displaying sections (0 = first)"
+        }
+      ]
+    },
+    {
+      "sys": {
+        "id": "service"
+      },
+      "name": "Service",
+      "description": "Individual services offered by Ash Shaw",
+      "displayField": "name",
+      "fields": [
+        {
+          "id": "name",
+          "name": "Service Name",
+          "type": "Symbol",
+          "localized": false,
+          "required": true,
+          "validations": [
+            {
+              "size": {
+                "min": 3,
+                "max": 100
+              }
+            }
+          ],
+          "disabled": false,
+          "omitted": false,
+          "helpText": "Name of the service (e.g., 'Festival Makeup', 'UV Artistry')"
+        },
+        {
+          "id": "description",
+          "name": "Service Description",
+          "type": "Text",
+          "localized": false,
+          "required": true,
+          "validations": [
+            {
+              "size": {
+                "min": 10,
+                "max": 500
+              }
+            }
+          ],
+          "disabled": false,
+          "omitted": false,
+          "helpText": "Detailed description of the service"
+        },
+        {
+          "id": "icon",
+          "name": "Service Icon",
+          "type": "Symbol",
+          "localized": false,
+          "required": false,
+          "validations": [
+            {
+              "in": [
+                "palette",
+                "brush",
+                "star",
+                "sparkles",
+                "music",
+                "camera",
+                "heart",
+                "sun",
+                "moon",
+                "paint-brush"
+              ]
+            }
+          ],
+          "disabled": false,
+          "omitted": false,
+          "helpText": "Icon for this service"
+        },
+        {
+          "id": "featured",
+          "name": "Featured Service",
+          "type": "Boolean",
+          "localized": false,
+          "required": false,
+          "validations": [],
+          "disabled": false,
+          "omitted": false,
+          "defaultValue": {
+            "en-US": false
+          },
+          "helpText": "Is this a featured service?"
+        }
+      ]
+    },
+    {
+      "sys": {
+        "id": "portfolioEntry"
+      },
+      "name": "Portfolio Entry",
+      "description": "Individual portfolio pieces showcasing makeup artistry work",
+      "displayField": "title",
+      "fields": [
+        {
+          "id": "title",
+          "name": "Portfolio Title",
+          "type": "Symbol",
+          "localized": false,
+          "required": true,
+          "validations": [
+            {
+              "size": {
+                "min": 3,
+                "max": 100
+              }
+            }
+          ],
+          "disabled": false,
+          "omitted": false,
+          "helpText": "Title for this portfolio piece"
+        },
+        {
+          "id": "slug",
+          "name": "URL Slug",
+          "type": "Symbol",
+          "localized": false,
+          "required": true,
+          "validations": [
+            {
+              "unique": true
+            },
+            {
+              "regexp": {
+                "pattern": "^[a-z0-9-]+$"
+              }
+            }
+          ],
+          "disabled": false,
+          "omitted": false,
+          "helpText": "URL-friendly slug (lowercase, hyphens only)"
+        },
+        {
+          "id": "description",
+          "name": "Short Description",
+          "type": "Text",
+          "localized": false,
+          "required": true,
+          "validations": [
+            {
+              "size": {
+                "min": 10,
+                "max": 300
+              }
+            }
+          ],
+          "disabled": false,
+          "omitted": false,
+          "helpText": "Brief description for cards and previews"
+        },
+        {
+          "id": "detailedDescription",
+          "name": "Detailed Description",
+          "type": "RichText",
+          "localized": false,
+          "required": false,
+          "validations": [],
+          "disabled": false,
+          "omitted": false,
+          "helpText": "Detailed description with rich text formatting"
+        },
+        {
+          "id": "category",
+          "name": "Category",
+          "type": "Symbol",
+          "localized": false,
+          "required": true,
+          "validations": [
+            {
+              "in": [
+                "festival",
+                "uv-makeup",
+                "editorial",
+                "nail-art",
+                "creative",
+                "bridal",
+                "commercial",
+                "special-effects",
+                "body-art",
+                "avant-garde"
+              ]
+            }
+          ],
+          "disabled": false,
+          "omitted": false,
+          "helpText": "Primary category for this portfolio piece"
+        },
+        {
+          "id": "tags",
+          "name": "Tags",
+          "type": "Array",
+          "localized": false,
+          "required": false,
+          "validations": [
+            {
+              "size": {
+                "min": 0,
+                "max": 20
+              }
+            }
+          ],
+          "disabled": false,
+          "omitted": false,
+          "items": {
+            "type": "Symbol",
+            "validations": [
+              {
+                "size": {
+                  "min": 2,
+                  "max": 30
+                }
+              }
+            ]
+          },
+          "helpText": "Tags for filtering and organization (festivals, uv, blacklight, etc.)"
+        },
+        {
+          "id": "featuredImage",
+          "name": "Featured Image",
+          "type": "Link",
+          "localized": false,
+          "required": true,
+          "validations": [
+            {
+              "linkMimetypeGroup": [
+                "image"
+              ]
+            }
+          ],
+          "disabled": false,
+          "omitted": false,
+          "linkType": "Asset",
+          "helpText": "Main image for cards and previews"
+        },
+        {
+          "id": "images",
+          "name": "Gallery Images",
+          "type": "Array",
+          "localized": false,
+          "required": false,
+          "validations": [
+            {
+              "size": {
+                "min": 0,
+                "max": 15
+              }
+            }
+          ],
+          "disabled": false,
+          "omitted": false,
+          "items": {
+            "type": "Link",
+            "validations": [
+              {
+                "linkMimetypeGroup": [
+                  "image"
+                ]
+              }
+            ],
+            "linkType": "Asset"
+          },
+          "helpText": "Additional images for the gallery (up to 15 images)"
+        },
+        {
+          "id": "location",
+          "name": "Location",
+          "type": "Symbol",
+          "localized": false,
+          "required": false,
+          "validations": [
+            {
+              "size": {
+                "max": 150
+              }
+            }
+          ],
+          "disabled": false,
+          "omitted": false,
+          "helpText": "Event location or shoot location"
+        },
+        {
+          "id": "eventDate",
+          "name": "Event Date",
+          "type": "Date",
+          "localized": false,
+          "required": false,
+          "validations": [],
+          "disabled": false,
+          "omitted": false,
+          "helpText": "Date when this work was created"
+        },
+        {
+          "id": "featured",
+          "name": "Featured Work",
+          "type": "Boolean",
+          "localized": false,
+          "required": false,
+          "validations": [],
+          "disabled": false,
+          "omitted": false,
+          "defaultValue": {
+            "en-US": false
+          },
+          "helpText": "Should this appear in featured work sections?"
+        },
+        {
+          "id": "displayOrder",
+          "name": "Display Order",
+          "type": "Integer",
+          "localized": false,
+          "required": false,
+          "validations": [
+            {
+              "range": {
+                "min": 0,
+                "max": 9999
+              }
+            }
+          ],
+          "disabled": false,
+          "omitted": false,
+          "helpText": "Order for displaying entries (0 = first)"
+        },
+        {
+          "id": "techniques",
+          "name": "Techniques Used",
+          "type": "Array",
+          "localized": false,
+          "required": false,
+          "validations": [
+            {
+              "size": {
+                "min": 0,
+                "max": 10
+              }
+            }
+          ],
+          "disabled": false,
+          "omitted": false,
+          "items": {
+            "type": "Symbol",
+            "validations": [
+              {
+                "in": [
+                  "Face Painting",
+                  "UV Reactive Paint",
+                  "Glitter Application",
+                  "Airbrushing",
+                  "Special Effects",
+                  "Body Art",
+                  "Nail Art",
+                  "Prosthetics",
+                  "Color Theory",
+                  "Blending"
+                ]
+              }
+            ]
+          },
+          "helpText": "Makeup techniques used in this piece"
+        },
+        {
+          "id": "client",
+          "name": "Client/Event",
+          "type": "Symbol",
+          "localized": false,
+          "required": false,
+          "validations": [
+            {
+              "size": {
+                "max": 100
+              }
+            }
+          ],
+          "disabled": false,
+          "omitted": false,
+          "helpText": "Client name or event name"
+        },
+        {
+          "id": "seo",
+          "name": "SEO Settings",
+          "type": "Link",
+          "localized": false,
+          "required": false,
+          "validations": [],
+          "disabled": false,
+          "omitted": false,
+          "linkType": "Entry",
+          "linkContentType": [
+            "seoSettings"
+          ],
+          "helpText": "SEO settings for this portfolio piece"
+        }
+      ]
+    },
+    {
+      "sys": {
+        "id": "portfolioPage"
+      },
+      "name": "Portfolio Page",
+      "description": "Portfolio page configuration and sections",
+      "displayField": "title",
+      "fields": [
+        {
+          "id": "title",
+          "name": "Page Title",
+          "type": "Symbol",
+          "localized": false,
+          "required": true,
+          "validations": [
+            {
+              "size": {
+                "min": 10,
+                "max": 100
+              }
+            }
+          ],
+          "disabled": false,
+          "omitted": false,
+          "helpText": "Internal reference for portfolio page content"
+        },
+        {
+          "id": "heroTitle",
+          "name": "Hero Title",
+          "type": "Symbol",
+          "localized": false,
+          "required": true,
+          "validations": [
+            {
+              "size": {
+                "min": 5,
+                "max": 100
+              }
+            }
+          ],
+          "disabled": false,
+          "omitted": false,
+          "helpText": "Main title for the portfolio page hero"
+        },
+        {
+          "id": "heroSubtitle",
+          "name": "Hero Subtitle",
+          "type": "Symbol",
+          "localized": false,
+          "required": false,
+          "validations": [
+            {
+              "size": {
+                "max": 200
+              }
+            }
+          ],
+          "disabled": false,
+          "omitted": false,
+          "helpText": "Subtitle for the portfolio hero"
+        },
+        {
+          "id": "heroDescription",
+          "name": "Hero Description",
+          "type": "Text",
+          "localized": false,
+          "required": false,
+          "validations": [
+            {
+              "size": {
+                "max": 500
+              }
+            }
+          ],
+          "disabled": false,
+          "omitted": false,
+          "helpText": "Description for the portfolio hero section"
+        },
+        {
+          "id": "portfolioSections",
+          "name": "Portfolio Sections",
+          "type": "Array",
+          "localized": false,
+          "required": false,
+          "validations": [
+            {
+              "size": {
+                "min": 0,
+                "max": 10
+              }
+            }
+          ],
+          "disabled": false,
+          "omitted": false,
+          "items": {
+            "type": "Link",
+            "validations": [],
+            "linkType": "Entry",
+            "linkContentType": [
+              "portfolioSection"
+            ]
+          },
+          "helpText": "Sections to display on the portfolio page"
+        }
+      ]
+    },
+    {
+      "sys": {
+        "id": "portfolioSection"
+      },
+      "name": "Portfolio Section",
+      "description": "Individual sections within the portfolio page",
+      "displayField": "title",
+      "fields": [
+        {
+          "id": "title",
+          "name": "Section Title",
+          "type": "Symbol",
+          "localized": false,
+          "required": true,
+          "validations": [
+            {
+              "size": {
+                "min": 3,
+                "max": 100
+              }
+            }
+          ],
+          "disabled": false,
+          "omitted": false,
+          "helpText": "Title for this portfolio section"
+        },
+        {
+          "id": "description",
+          "name": "Section Description",
+          "type": "Text",
+          "localized": false,
+          "required": false,
+          "validations": [
+            {
+              "size": {
+                "max": 500
+              }
+            }
+          ],
+          "disabled": false,
+          "omitted": false,
+          "helpText": "Description for this section"
+        },
+        {
+          "id": "sectionId",
+          "name": "Section ID",
+          "type": "Symbol",
+          "localized": false,
+          "required": true,
+          "validations": [
+            {
+              "unique": true
+            },
+            {
+              "regexp": {
+                "pattern": "^[a-z0-9-]+$"
+              }
+            }
+          ],
+          "disabled": false,
+          "omitted": false,
+          "helpText": "Unique identifier for this section (lowercase, hyphens)"
+        },
+        {
+          "id": "contentfulTags",
+          "name": "Contentful Filter Tags",
+          "type": "Array",
+          "localized": false,
+          "required": false,
+          "validations": [
+            {
+              "size": {
+                "min": 0,
+                "max": 10
+              }
+            }
+          ],
+          "disabled": false,
+          "omitted": false,
+          "items": {
+            "type": "Symbol",
+            "validations": [
+              {
+                "size": {
+                  "min": 2,
+                  "max": 30
+                }
+              }
+            ]
+          },
+          "helpText": "Tags to filter portfolio entries for this section"
+        },
+        {
+          "id": "fallbackCategory",
+          "name": "Fallback Category",
+          "type": "Symbol",
+          "localized": false,
+          "required": false,
+          "validations": [
+            {
+              "in": [
+                "festival",
+                "uv-makeup",
+                "editorial",
+                "nail-art",
+                "creative",
+                "bridal",
+                "commercial",
+                "special-effects",
+                "body-art",
+                "avant-garde"
+              ]
+            }
+          ],
+          "disabled": false,
+          "omitted": false,
+          "helpText": "Category to use if no tagged entries are found"
+        },
+        {
+          "id": "gradientTheme",
+          "name": "Gradient Theme",
+          "type": "Symbol",
+          "localized": false,
+          "required": false,
+          "validations": [
+            {
+              "in": [
+                "pink-purple-blue",
+                "blue-teal-green",
+                "gold-peach-coral",
+                "orange-green",
+                "purple-blue",
+                "cyan-pink"
+              ]
+            }
+          ],
+          "disabled": false,
+          "omitted": false,
+          "defaultValue": {
+            "en-US": "pink-purple-blue"
+          },
+          "helpText": "Color gradient theme for this section"
+        },
+        {
+          "id": "displayOrder",
+          "name": "Display Order",
+          "type": "Integer",
+          "localized": false,
+          "required": false,
+          "validations": [
+            {
+              "range": {
+                "min": 0,
+                "max": 100
+              }
+            }
+          ],
+          "disabled": false,
+          "omitted": false,
+          "helpText": "Order for displaying sections (0 = first)"
+        },
+        {
+          "id": "maxEntries",
+          "name": "Maximum Entries",
+          "type": "Integer",
+          "localized": false,
+          "required": false,
+          "validations": [
+            {
+              "range": {
+                "min": 1,
+                "max": 50
+              }
+            }
+          ],
+          "disabled": false,
+          "omitted": false,
+          "defaultValue": {
+            "en-US": 12
+          },
+          "helpText": "Maximum number of entries to show in this section"
+        }
+      ]
+    },
+    {
+      "sys": {
+        "id": "blogPost"
+      },
+      "name": "Blog Post",
+      "description": "Individual blog posts for insights and tutorials",
+      "displayField": "title",
+      "fields": [
+        {
+          "id": "title",
+          "name": "Post Title",
+          "type": "Symbol",
+          "localized": false,
+          "required": true,
+          "validations": [
+            {
+              "size": {
+                "min": 10,
+                "max": 150
+              }
+            }
+          ],
+          "disabled": false,
+          "omitted": false,
+          "helpText": "Title of the blog post"
+        },
+        {
+          "id": "slug",
+          "name": "URL Slug",
+          "type": "Symbol",
+          "localized": false,
+          "required": true,
+          "validations": [
+            {
+              "unique": true
+            },
+            {
+              "regexp": {
+                "pattern": "^[a-z0-9-]+$"
+              }
+            }
+          ],
+          "disabled": false,
+          "omitted": false,
+          "helpText": "URL-friendly slug (lowercase, hyphens only)"
+        },
+        {
+          "id": "excerpt",
+          "name": "Post Excerpt",
+          "type": "Text",
+          "localized": false,
+          "required": true,
+          "validations": [
+            {
+              "size": {
+                "min": 50,
+                "max": 300
+              }
+            }
+          ],
+          "disabled": false,
+          "omitted": false,
+          "helpText": "Brief summary for post previews"
+        },
+        {
+          "id": "content",
+          "name": "Post Content",
+          "type": "RichText",
+          "localized": false,
+          "required": true,
+          "validations": [],
+          "disabled": false,
+          "omitted": false,
+          "helpText": "Full blog post content with rich text formatting"
+        },
+        {
+          "id": "featuredImage",
+          "name": "Featured Image",
+          "type": "Link",
+          "localized": false,
+          "required": false,
+          "validations": [
+            {
+              "linkMimetypeGroup": [
+                "image"
+              ]
+            }
+          ],
+          "disabled": false,
+          "omitted": false,
+          "linkType": "Asset",
+          "helpText": "Main image for the blog post"
+        },
+        {
+          "id": "category",
+          "name": "Category",
+          "type": "Symbol",
+          "localized": false,
+          "required": true,
+          "validations": [
+            {
+              "in": [
+                "tutorials",
+                "tips-and-tricks",
+                "festival-guides",
+                "product-reviews",
+                "behind-the-scenes",
+                "industry-insights",
+                "personal-stories",
+                "technique-guides",
+                "trend-reports",
+                "client-stories"
+              ]
+            }
+          ],
+          "disabled": false,
+          "omitted": false,
+          "helpText": "Primary category for this blog post"
+        },
+        {
+          "id": "tags",
+          "name": "Tags",
+          "type": "Array",
+          "localized": false,
+          "required": false,
+          "validations": [
+            {
+              "size": {
+                "min": 0,
+                "max": 15
+              }
+            }
+          ],
+          "disabled": false,
+          "omitted": false,
+          "items": {
+            "type": "Symbol",
+            "validations": [
+              {
+                "size": {
+                  "min": 2,
+                  "max": 30
+                }
+              }
+            ]
+          },
+          "helpText": "Tags for filtering and organization"
+        },
+        {
+          "id": "author",
+          "name": "Author",
+          "type": "Link",
+          "localized": false,
+          "required": true,
+          "validations": [],
+          "disabled": false,
+          "omitted": false,
+          "linkType": "Entry",
+          "linkContentType": [
+            "author"
+          ],
+          "helpText": "Author of this blog post"
+        },
+        {
+          "id": "publishedDate",
+          "name": "Published Date",
+          "type": "Date",
+          "localized": false,
+          "required": true,
+          "validations": [],
+          "disabled": false,
+          "omitted": false,
+          "helpText": "Date when this post was published"
+        },
+        {
+          "id": "updatedDate",
+          "name": "Last Updated",
+          "type": "Date",
+          "localized": false,
+          "required": false,
+          "validations": [],
+          "disabled": false,
+          "omitted": false,
+          "helpText": "Date when this post was last updated"
+        },
+        {
+          "id": "published",
+          "name": "Published",
+          "type": "Boolean",
+          "localized": false,
+          "required": false,
+          "validations": [],
+          "disabled": false,
+          "omitted": false,
+          "defaultValue": {
+            "en-US": false
+          },
+          "helpText": "Is this post published and visible?"
+        },
+        {
+          "id": "featured",
+          "name": "Featured Post",
+          "type": "Boolean",
+          "localized": false,
+          "required": false,
+          "validations": [],
+          "disabled": false,
+          "omitted": false,
+          "defaultValue": {
+            "en-US": false
+          },
+          "helpText": "Should this post be featured?"
+        },
+        {
+          "id": "readingTime",
+          "name": "Reading Time (minutes)",
+          "type": "Integer",
+          "localized": false,
+          "required": false,
+          "validations": [
+            {
+              "range": {
+                "min": 1,
+                "max": 60
+              }
+            }
+          ],
+          "disabled": false,
+          "omitted": false,
+          "helpText": "Estimated reading time in minutes"
+        },
+        {
+          "id": "relatedPosts",
+          "name": "Related Posts",
+          "type": "Array",
+          "localized": false,
+          "required": false,
+          "validations": [
+            {
+              "size": {
+                "min": 0,
+                "max": 5
+              }
+            }
+          ],
+          "disabled": false,
+          "omitted": false,
+          "items": {
+            "type": "Link",
+            "validations": [],
+            "linkType": "Entry",
+            "linkContentType": [
+              "blogPost"
+            ]
+          },
+          "helpText": "Related blog posts to show"
+        },
+        {
+          "id": "seo",
+          "name": "SEO Settings",
+          "type": "Link",
+          "localized": false,
+          "required": false,
+          "validations": [],
+          "disabled": false,
+          "omitted": false,
+          "linkType": "Entry",
+          "linkContentType": [
+            "seoSettings"
+          ],
+          "helpText": "SEO settings for this blog post"
+        }
+      ]
+    },
+    {
+      "sys": {
+        "id": "blogPage"
+      },
+      "name": "Blog Page",
+      "description": "Blog page configuration and settings",
+      "displayField": "title",
+      "fields": [
+        {
+          "id": "title",
+          "name": "Page Title",
+          "type": "Symbol",
+          "localized": false,
+          "required": true,
+          "validations": [
+            {
+              "size": {
+                "min": 10,
+                "max": 100
+              }
+            }
+          ],
+          "disabled": false,
+          "omitted": false,
+          "helpText": "Internal reference for blog page content"
+        },
+        {
+          "id": "heroTitle",
+          "name": "Hero Title",
+          "type": "Symbol",
+          "localized": false,
+          "required": true,
+          "validations": [
+            {
+              "size": {
+                "min": 5,
+                "max": 100
+              }
+            }
+          ],
+          "disabled": false,
+          "omitted": false,
+          "helpText": "Main title for the blog page hero"
+        },
+        {
+          "id": "heroSubtitle",
+          "name": "Hero Subtitle",
+          "type": "Symbol",
+          "localized": false,
+          "required": false,
+          "validations": [
+            {
+              "size": {
+                "max": 200
+              }
+            }
+          ],
+          "disabled": false,
+          "omitted": false,
+          "helpText": "Subtitle for the blog hero"
+        },
+        {
+          "id": "heroDescription",
+          "name": "Hero Description",
+          "type": "Text",
+          "localized": false,
+          "required": false,
+          "validations": [
+            {
+              "size": {
+                "max": 500
+              }
+            }
+          ],
+          "disabled": false,
+          "omitted": false,
+          "helpText": "Description for the blog hero section"
+        },
+        {
+          "id": "postsPerPage",
+          "name": "Posts Per Page",
+          "type": "Integer",
+          "localized": false,
+          "required": false,
+          "validations": [
+            {
+              "range": {
+                "min": 1,
+                "max": 20
+              }
+            }
+          ],
+          "disabled": false,
+          "omitted": false,
+          "defaultValue": {
+            "en-US": 6
+          },
+          "helpText": "Number of posts to show per page"
+        },
+        {
+          "id": "enableSearch",
+          "name": "Enable Search",
+          "type": "Boolean",
+          "localized": false,
+          "required": false,
+          "validations": [],
+          "disabled": false,
+          "omitted": false,
+          "defaultValue": {
+            "en-US": true
+          },
+          "helpText": "Enable search functionality"
+        },
+        {
+          "id": "enableFiltering",
+          "name": "Enable Category Filtering",
+          "type": "Boolean",
+          "localized": false,
+          "required": false,
+          "validations": [],
+          "disabled": false,
+          "omitted": false,
+          "defaultValue": {
+            "en-US": true
+          },
+          "helpText": "Enable category and tag filtering"
+        },
+        {
+          "id": "featuredPosts",
+          "name": "Featured Posts",
+          "type": "Array",
+          "localized": false,
+          "required": false,
+          "validations": [
+            {
+              "size": {
+                "min": 0,
+                "max": 5
+              }
+            }
+          ],
+          "disabled": false,
+          "omitted": false,
+          "items": {
+            "type": "Link",
+            "validations": [],
+            "linkType": "Entry",
+            "linkContentType": [
+              "blogPost"
+            ]
+          },
+          "helpText": "Posts to feature prominently on the blog page"
+        }
+      ]
+    },
+    {
+      "sys": {
+        "id": "author"
+      },
+      "name": "Author",
+      "description": "Author information for blog posts",
+      "displayField": "name",
+      "fields": [
+        {
+          "id": "name",
+          "name": "Author Name",
+          "type": "Symbol",
+          "localized": false,
+          "required": true,
+          "validations": [
+            {
+              "size": {
+                "min": 2,
+                "max": 100
+              }
+            }
+          ],
+          "disabled": false,
+          "omitted": false,
+          "helpText": "Full name of the author"
+        },
+        {
+          "id": "bio",
+          "name": "Author Bio",
+          "type": "Text",
+          "localized": false,
+          "required": false,
+          "validations": [
+            {
+              "size": {
+                "max": 500
+              }
+            }
+          ],
+          "disabled": false,
+          "omitted": false,
+          "helpText": "Short biography of the author"
+        },
+        {
+          "id": "avatar",
+          "name": "Author Avatar",
+          "type": "Link",
+          "localized": false,
+          "required": false,
+          "validations": [
+            {
+              "linkMimetypeGroup": [
+                "image"
+              ]
+            }
+          ],
+          "disabled": false,
+          "omitted": false,
+          "linkType": "Asset",
+          "helpText": "Profile photo of the author"
+        },
+        {
+          "id": "email",
+          "name": "Email",
+          "type": "Symbol",
+          "localized": false,
+          "required": false,
+          "validations": [
+            {
+              "regexp": {
+                "pattern": "^[\\w\\.-]+@[\\w\\.-]+\\.[a-zA-Z]{2,}$"
+              }
+            }
+          ],
+          "disabled": false,
+          "omitted": false,
+          "helpText": "Author's email address"
+        },
+        {
+          "id": "socialLinks",
+          "name": "Social Media Links",
+          "type": "Object",
+          "localized": false,
+          "required": false,
+          "validations": [],
+          "disabled": false,
+          "omitted": false,
+          "helpText": "Social media profiles (Instagram, LinkedIn, etc.)"
+        }
+      ]
+    },
+    {
+      "sys": {
+        "id": "seoSettings"
+      },
+      "name": "SEO Settings",
+      "description": "SEO metadata for pages and content",
+      "displayField": "metaTitle",
+      "fields": [
+        {
+          "id": "metaTitle",
+          "name": "Meta Title",
+          "type": "Symbol",
+          "localized": false,
+          "required": false,
+          "validations": [
+            {
+              "size": {
+                "max": 60
+              }
+            }
+          ],
+          "disabled": false,
+          "omitted": false,
+          "helpText": "SEO title for search engines (max 60 characters)"
+        },
+        {
+          "id": "metaDescription",
+          "name": "Meta Description",
+          "type": "Text",
+          "localized": false,
+          "required": false,
+          "validations": [
+            {
+              "size": {
+                "max": 160
+              }
+            }
+          ],
+          "disabled": false,
+          "omitted": false,
+          "helpText": "SEO description for search engines (max 160 characters)"
+        },
+        {
+          "id": "keywords",
+          "name": "Keywords",
+          "type": "Array",
+          "localized": false,
+          "required": false,
+          "validations": [
+            {
+              "size": {
+                "min": 0,
+                "max": 10
+              }
+            }
+          ],
+          "disabled": false,
+          "omitted": false,
+          "items": {
+            "type": "Symbol",
+            "validations": [
+              {
+                "size": {
+                  "min": 2,
+                  "max": 50
+                }
+              }
+            ]
+          },
+          "helpText": "SEO keywords (up to 10)"
+        },
+        {
+          "id": "socialImage",
+          "name": "Social Media Image",
+          "type": "Link",
+          "localized": false,
+          "required": false,
+          "validations": [
+            {
+              "linkMimetypeGroup": [
+                "image"
+              ]
+            }
+          ],
+          "disabled": false,
+          "omitted": false,
+          "linkType": "Asset",
+          "helpText": "Image for social media sharing (1200x630px recommended)"
+        },
+        {
+          "id": "canonicalUrl",
+          "name": "Canonical URL",
+          "type": "Symbol",
+          "localized": false,
+          "required": false,
+          "validations": [
+            {
+              "regexp": {
+                "pattern": "^https?:\\/\\/.+"
+              }
+            }
+          ],
+          "disabled": false,
+          "omitted": false,
+          "helpText": "Canonical URL for this content"
+        },
+        {
+          "id": "noIndex",
+          "name": "No Index",
+          "type": "Boolean",
+          "localized": false,
+          "required": false,
+          "validations": [],
+          "disabled": false,
+          "omitted": false,
+          "defaultValue": {
+            "en-US": false
+          },
+          "helpText": "Prevent search engines from indexing this content"
+        }
+      ]
+    },
+    {
+      "sys": {
+        "id": "globalSettings"
+      },
+      "name": "Global Settings",
+      "description": "Site-wide configuration and settings",
+      "displayField": "siteName",
+      "fields": [
+        {
+          "id": "siteName",
+          "name": "Site Name",
+          "type": "Symbol",
+          "localized": false,
+          "required": true,
+          "validations": [
+            {
+              "size": {
+                "min": 5,
+                "max": 100
+              }
+            }
+          ],
+          "disabled": false,
+          "omitted": false,
+          "helpText": "Name of the website"
+        },
+        {
+          "id": "siteDescription",
+          "name": "Site Description",
+          "type": "Text",
+          "localized": false,
+          "required": false,
+          "validations": [
+            {
+              "size": {
+                "max": 300
+              }
+            }
+          ],
+          "disabled": false,
+          "omitted": false,
+          "helpText": "Brief description of the website"
+        },
+        {
+          "id": "contactEmail",
+          "name": "Contact Email",
+          "type": "Symbol",
+          "localized": false,
+          "required": false,
+          "validations": [
+            {
+              "regexp": {
+                "pattern": "^[\\w\\.-]+@[\\w\\.-]+\\.[a-zA-Z]{2,}$"
+              }
+            }
+          ],
+          "disabled": false,
+          "omitted": false,
+          "helpText": "Primary contact email address"
+        },
+        {
+          "id": "socialMediaLinks",
+          "name": "Social Media Links",
+          "type": "Object",
+          "localized": false,
+          "required": false,
+          "validations": [],
+          "disabled": false,
+          "omitted": false,
+          "helpText": "Social media profile URLs"
+        },
+        {
+          "id": "footerText",
+          "name": "Footer Text",
+          "type": "Text",
+          "localized": false,
+          "required": false,
+          "validations": [
+            {
+              "size": {
+                "max": 500
+              }
+            }
+          ],
+          "disabled": false,
+          "omitted": false,
+          "helpText": "Text to display in the footer"
+        },
+        {
+          "id": "maintenanceMode",
+          "name": "Maintenance Mode",
+          "type": "Boolean",
+          "localized": false,
+          "required": false,
+          "validations": [],
+          "disabled": false,
+          "omitted": false,
+          "defaultValue": {
+            "en-US": false
+          },
+          "helpText": "Enable maintenance mode for the site"
+        },
+        {
+          "id": "googleAnalyticsId",
+          "name": "Google Analytics ID",
+          "type": "Symbol",
+          "localized": false,
+          "required": false,
+          "validations": [],
+          "disabled": false,
+          "omitted": false,
+          "helpText": "Google Analytics tracking ID"
+        }
+      ]
+    }
+  ]
+}

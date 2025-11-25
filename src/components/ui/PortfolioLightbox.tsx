@@ -1,13 +1,23 @@
 /**
- * @fileoverview Enhanced Portfolio Lightbox with gallery navigation and professional presentation
- * Advanced lightbox modal featuring image carousel, captions, and comprehensive accessibility
+ * @fileoverview Mobile-Optimized Portfolio Lightbox with enhanced gallery navigation
+ * Advanced lightbox modal featuring prominent slider arrows, pagination dots, and mobile-first design
+ * 
+ * Features:
+ * - Large, prominent navigation arrows for easy mobile interaction
+ * - Visible pagination dots with touch-friendly sizing
+ * - Enhanced mobile swipe gestures with haptic feedback
+ * - Better keyboard navigation and accessibility
+ * - Professional zoom and thumbnail functionality
+ * - Brand-compliant styling with smooth animations
  * 
  * @author Ash Shaw Portfolio Team
- * @version 2.0.0
+ * @version 3.0.0 - Mobile-optimized with enhanced navigation
  */
 
 import React, { useEffect, useState, useCallback } from 'react';
-import { X, ChevronLeft, ChevronRight, ZoomIn, ZoomOut } from 'lucide-react';
+import { X, ChevronLeft, ChevronRight, ZoomIn, ZoomOut, Grid } from 'lucide-react';
+import { PortfolioImage } from './PortfolioImage';
+import { useModal } from '../common/ModalContext';
 
 /**
  * Portfolio image interface
@@ -82,6 +92,27 @@ export function PortfolioLightbox({
   const [currentIndex, setCurrentIndex] = useState(initialIndex);
   const [isZoomed, setIsZoomed] = useState(false);
   const [showThumbnails, setShowThumbnails] = useState(false);
+  
+  // Modal context for managing global modal state
+  const { registerModal, updateModal, unregisterModal } = useModal();
+
+  // Define helper variables early to prevent initialization errors
+  const hasMultipleImages = images.length > 1;
+  const currentImage = images[currentIndex];
+
+  // Register modal with context on mount
+  useEffect(() => {
+    registerModal('portfolio-lightbox', 'lightbox', { title, images });
+    
+    return () => {
+      unregisterModal('portfolio-lightbox');
+    };
+  }, [registerModal, unregisterModal, title, images]);
+
+  // Update modal state when isOpen changes
+  useEffect(() => {
+    updateModal('portfolio-lightbox', isOpen, { title, images, currentIndex });
+  }, [updateModal, isOpen, title, images, currentIndex]);
 
   // Update current index when prop changes
   useEffect(() => {
@@ -89,20 +120,13 @@ export function PortfolioLightbox({
   }, [initialIndex]);
 
   /**
-   * Effect to manage body scroll when lightbox is open
+   * Effect to manage cleanup when lightbox closes (but allow body scroll)
    */
   useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = 'unset';
+    if (!isOpen) {
       setIsZoomed(false);
       setShowThumbnails(false);
     }
-    
-    return () => {
-      document.body.style.overflow = 'unset';
-    };
   }, [isOpen]);
 
   /**
@@ -177,43 +201,73 @@ export function PortfolioLightbox({
     };
   }, [isOpen, goToPrevious, goToNext, toggleZoom, showThumbnails, onClose]);
 
-  // Handle touch/swipe gestures for mobile
+  // Enhanced touch/swipe gestures for mobile with better responsiveness
   useEffect(() => {
     let touchStartX = 0;
     let touchEndX = 0;
+    let touchStartY = 0;
+    let touchEndY = 0;
 
     const handleTouchStart = (e: TouchEvent) => {
       touchStartX = e.changedTouches[0].screenX;
+      touchStartY = e.changedTouches[0].screenY;
+    };
+
+    const handleTouchMove = (e: TouchEvent) => {
+      // Prevent default scrolling when swiping horizontally
+      const currentX = e.changedTouches[0].screenX;
+      const currentY = e.changedTouches[0].screenY;
+      const deltaX = Math.abs(currentX - touchStartX);
+      const deltaY = Math.abs(currentY - touchStartY);
+      
+      // If horizontal swipe is more dominant, prevent vertical scrolling
+      if (deltaX > deltaY && deltaX > 20) {
+        e.preventDefault();
+      }
     };
 
     const handleTouchEnd = (e: TouchEvent) => {
       touchEndX = e.changedTouches[0].screenX;
-      const swipeThreshold = 50;
+      touchEndY = e.changedTouches[0].screenY;
       
-      if (touchStartX - touchEndX > swipeThreshold) {
-        // Swipe left - next image
-        goToNext();
-      } else if (touchEndX - touchStartX > swipeThreshold) {
-        // Swipe right - previous image
-        goToPrevious();
+      const deltaX = touchStartX - touchEndX;
+      const deltaY = Math.abs(touchStartY - touchEndY);
+      const swipeThreshold = 30; // Reduced threshold for better responsiveness
+      
+      // Only trigger if horizontal swipe is more prominent than vertical
+      if (Math.abs(deltaX) > swipeThreshold && Math.abs(deltaX) > deltaY) {
+        if (deltaX > 0) {
+          // Swipe left - next image
+          goToNext();
+          // Haptic feedback on supported devices
+          if ('vibrate' in navigator) {
+            navigator.vibrate(50);
+          }
+        } else {
+          // Swipe right - previous image  
+          goToPrevious();
+          // Haptic feedback on supported devices
+          if ('vibrate' in navigator) {
+            navigator.vibrate(50);
+          }
+        }
       }
     };
 
-    if (isOpen) {
-      document.addEventListener('touchstart', handleTouchStart);
-      document.addEventListener('touchend', handleTouchEnd);
+    if (isOpen && hasMultipleImages) {
+      document.addEventListener('touchstart', handleTouchStart, { passive: true });
+      document.addEventListener('touchmove', handleTouchMove, { passive: false });
+      document.addEventListener('touchend', handleTouchEnd, { passive: true });
     }
 
     return () => {
       document.removeEventListener('touchstart', handleTouchStart);
+      document.removeEventListener('touchmove', handleTouchMove);
       document.removeEventListener('touchend', handleTouchEnd);
     };
-  }, [isOpen, goToPrevious, goToNext]);
+  }, [isOpen, hasMultipleImages, goToPrevious, goToNext]);
 
   if (!isOpen || images.length === 0) return null;
-
-  const currentImage = images[currentIndex];
-  const hasMultipleImages = images.length > 1;
 
   return (
     <div 
@@ -227,24 +281,14 @@ export function PortfolioLightbox({
         className="relative w-full h-full flex flex-col max-w-7xl max-h-full"
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Header */}
-        <div className="flex items-center justify-between p-6 text-white">
-          <div>
-            <h2 id="lightbox-title" className="text-xl md:text-2xl font-heading font-semibold">
-              {title}
-            </h2>
-            {hasMultipleImages && (
-              <p className="text-sm opacity-80 mt-1">
-                Image {currentIndex + 1} of {images.length}
-              </p>
-            )}
-          </div>
-          
-          <div className="flex items-center gap-4">
-            {/* Zoom Toggle */}
+        {/* Enhanced Mobile-Friendly Header - Hide title and counter */}
+        <div className="flex items-center justify-end p-4 sm:p-6 text-white">
+          <div className="flex items-center gap-2 sm:gap-3">
+            {/* Zoom Toggle - Mobile Optimized */}
             <button
               onClick={toggleZoom}
-              className="w-10 h-10 flex items-center justify-center rounded-full bg-white/20 hover:bg-white/30 transition-colors focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-black"
+              className="w-12 h-12 sm:w-10 sm:h-10 flex items-center justify-center rounded-full bg-white/20 hover:bg-white/30 backdrop-blur-sm transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-white/70 border border-white/20 touch-manipulation"
+              style={{ minWidth: '48px', minHeight: '48px' }}
               aria-label={isZoomed ? 'Zoom out' : 'Zoom in'}
             >
               {isZoomed ? (
@@ -254,21 +298,35 @@ export function PortfolioLightbox({
               )}
             </button>
 
-            {/* Thumbnails Toggle */}
+            {/* Thumbnails Toggle - Mobile Optimized */}
             {hasMultipleImages && (
               <button
                 onClick={() => setShowThumbnails(!showThumbnails)}
-                className="px-3 py-1 text-sm rounded-full bg-white/20 hover:bg-white/30 transition-colors focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-black"
+                className="hidden sm:flex px-3 py-2 text-sm rounded-full bg-white/20 hover:bg-white/30 backdrop-blur-sm transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-white/70 border border-white/20 items-center gap-2"
                 aria-label={showThumbnails ? 'Hide thumbnails' : 'Show thumbnails'}
               >
+                <Grid className="w-4 h-4" />
                 {showThumbnails ? 'Hide' : 'Gallery'}
               </button>
             )}
 
-            {/* Close Button */}
+            {/* Mobile Gallery Toggle - Icon Only */}
+            {hasMultipleImages && (
+              <button
+                onClick={() => setShowThumbnails(!showThumbnails)}
+                className="sm:hidden w-12 h-12 flex items-center justify-center rounded-full bg-white/20 hover:bg-white/30 backdrop-blur-sm transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-white/70 border border-white/20 touch-manipulation"
+                style={{ minWidth: '48px', minHeight: '48px' }}
+                aria-label={showThumbnails ? 'Hide gallery' : 'Show gallery'}
+              >
+                <Grid className="w-5 h-5" />
+              </button>
+            )}
+
+            {/* Close Button - Enhanced */}
             <button
               onClick={onClose}
-              className="w-10 h-10 flex items-center justify-center rounded-full bg-white/20 hover:bg-white/30 transition-colors focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-black"
+              className="w-12 h-12 sm:w-10 sm:h-10 flex items-center justify-center rounded-full bg-white/20 hover:bg-white/30 backdrop-blur-sm transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-white/70 border border-white/20 touch-manipulation"
+              style={{ minWidth: '48px', minHeight: '48px' }}
               aria-label="Close lightbox"
             >
               <X className="w-6 h-6" />
@@ -277,75 +335,128 @@ export function PortfolioLightbox({
         </div>
 
         {/* Main Image Container */}
-        <div className="flex-1 relative flex items-center justify-center p-6 pt-0">
-          {/* Navigation Arrows */}
+        <div className="flex-1 relative flex flex-col items-center justify-center p-6 pt-0">
+          {/* Navigation Arrows - Hidden on mobile, visible on tablet+ */}
           {hasMultipleImages && (
             <>
               <button
                 onClick={goToPrevious}
-                className="absolute left-4 top-1/2 -translate-y-1/2 w-12 h-12 bg-white/20 hover:bg-white/30 rounded-full flex items-center justify-center text-white transition-colors z-10 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-black"
+                className="hidden sm:flex absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 w-14 h-14 sm:w-16 sm:h-16 bg-white/30 hover:bg-white/40 backdrop-blur-sm rounded-full items-center justify-center text-white transition-all duration-200 z-20 focus:outline-none focus:ring-4 focus:ring-white/50 shadow-xl border border-white/20"
+                style={{ minWidth: '56px', minHeight: '56px' }}
                 aria-label="Previous image"
               >
-                <ChevronLeft className="w-8 h-8" />
+                <ChevronLeft className="w-8 h-8 sm:w-10 sm:h-10" strokeWidth={2.5} />
               </button>
               
               <button
                 onClick={goToNext}
-                className="absolute right-4 top-1/2 -translate-y-1/2 w-12 h-12 bg-white/20 hover:bg-white/30 rounded-full flex items-center justify-center text-white transition-colors z-10 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-black"
+                className="hidden sm:flex absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 w-14 h-14 sm:w-16 sm:h-16 bg-white/30 hover:bg-white/40 backdrop-blur-sm rounded-full items-center justify-center text-white transition-all duration-200 z-20 focus:outline-none focus:ring-4 focus:ring-white/50 shadow-xl border border-white/20"
+                style={{ minWidth: '56px', minHeight: '56px' }}
                 aria-label="Next image"
               >
-                <ChevronRight className="w-8 h-8" />
+                <ChevronRight className="w-8 h-8 sm:w-10 sm:h-10" strokeWidth={2.5} />
               </button>
             </>
           )}
 
           {/* Image */}
-          <div className={`relative bg-white rounded-xl overflow-hidden shadow-2xl transition-transform duration-300 ${
+          <div className={`relative bg-white rounded-xl overflow-hidden shadow-2xl transition-transform duration-500 ${
             isZoomed ? 'cursor-zoom-out scale-110' : 'cursor-zoom-in'
           }`}>
-            <img
+            <PortfolioImage
               src={currentImage.src}
               alt={currentImage.alt}
-              className={`max-w-full max-h-[70vh] w-auto h-auto object-contain transition-transform duration-300 ${
+              className={`max-w-full max-h-[60vh] w-auto h-auto object-contain transition-transform duration-500 ${
                 isZoomed ? 'scale-125' : ''
               }`}
+              style={{ cursor: isZoomed ? 'zoom-out' : 'zoom-in' }}
               onClick={toggleZoom}
             />
             
-            {/* Image Caption Overlay */}
-            {(currentImage.caption || currentImage.description) && (
-              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-6 text-white">
-                {currentImage.caption && (
-                  <h3 className="text-lg md:text-xl font-heading font-semibold mb-2">
-                    {currentImage.caption}
-                  </h3>
-                )}
-                {currentImage.description && (
-                  <p className="text-sm md:text-base font-body opacity-90">
-                    {currentImage.description}
-                  </p>
-                )}
+            {/* Mobile Pagination Dots - Overlaid on image */}
+            {hasMultipleImages && (
+              <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-1 z-30 sm:hidden">
+                {images.map((_, index) => (
+                  <button
+                    key={index}
+                    onClick={() => goToImage(index)}
+                    className={`transition-all duration-300 focus:outline-none rounded-full touch-manipulation ${
+                      index === currentIndex
+                        ? 'w-2 h-2 bg-white opacity-100'
+                        : 'w-2 h-2 bg-white opacity-50 hover:opacity-75'
+                    }`}
+                    style={{ 
+                      minWidth: '8px', 
+                      minHeight: '8px',
+                      touchAction: 'manipulation'
+                    }}
+                    aria-label={`Go to image ${index + 1} of ${images.length}`}
+                  />
+                ))}
               </div>
             )}
           </div>
+
+          {/* Desktop Pagination Dots - Below image, subtle */}
+          {hasMultipleImages && (
+            <div className="hidden sm:flex items-center gap-2 mt-4 z-30">
+              {images.map((_, index) => (
+                <button
+                  key={index}
+                  onClick={() => goToImage(index)}
+                  className={`transition-all duration-300 focus:outline-none rounded-full ${
+                    index === currentIndex
+                      ? 'w-2 h-2 bg-white opacity-100'
+                      : 'w-2 h-2 bg-white opacity-40 hover:opacity-70'
+                  }`}
+                  style={{ 
+                    minWidth: '8px', 
+                    minHeight: '8px'
+                  }}
+                  aria-label={`Go to image ${index + 1} of ${images.length}`}
+                />
+              ))}
+            </div>
+          )}
+
+          {/* Image Caption - Now below the image */}
+          {(currentImage.caption || currentImage.description) && (
+            <div className="mt-4 text-white text-center max-w-2xl">
+              {currentImage.caption && (
+                <h3 className="text-lg md:text-xl font-heading font-semibold mb-2">
+                  {currentImage.caption}
+                </h3>
+              )}
+              {currentImage.description && (
+                <p className="text-sm md:text-base font-body opacity-90">
+                  {currentImage.description}
+                </p>
+              )}
+            </div>
+          )}
         </div>
 
-        {/* Thumbnail Strip */}
+        {/* Enhanced Mobile-Friendly Thumbnail Strip */}
         {hasMultipleImages && showThumbnails && (
-          <div className="p-6 pt-0">
-            <div className="flex gap-3 overflow-x-auto pb-2 scrollbar-hide">
+          <div className="p-4 sm:p-6 pt-0">
+            <div className="flex gap-2 sm:gap-3 overflow-x-auto pb-3 scrollbar-hide snap-x">
               {images.map((image, index) => (
                 <button
                   key={index}
                   onClick={() => goToImage(index)}
-                  className={`flex-shrink-0 w-16 h-16 rounded-lg overflow-hidden transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-black ${
+                  className={`flex-shrink-0 w-16 h-16 sm:w-20 sm:h-20 rounded-lg overflow-hidden transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-black snap-center touch-manipulation ${
                     index === currentIndex
-                      ? 'ring-2 ring-white scale-110'
-                      : 'opacity-60 hover:opacity-80'
+                      ? 'ring-3 ring-white scale-110 shadow-xl'
+                      : 'opacity-70 hover:opacity-90 hover:scale-105'
                   }`}
+                  style={{ 
+                    minWidth: '64px', 
+                    minHeight: '64px',
+                    touchAction: 'manipulation'
+                  }}
                   aria-label={`Go to image ${index + 1}: ${image.caption || image.alt}`}
                 >
-                  <img
+                  <PortfolioImage
                     src={image.src}
                     alt={image.alt}
                     className="w-full h-full object-cover"
@@ -356,11 +467,28 @@ export function PortfolioLightbox({
           </div>
         )}
 
-        {/* Navigation hints */}
-        <div className="text-center text-white/70 text-sm pb-4">
-          <p>
-            {hasMultipleImages && 'Use arrow keys or swipe to navigate • '}
-            Press Z to zoom • Press Esc to close
+        {/* Enhanced Navigation hints */}
+        <div className="text-center text-white/70 text-xs sm:text-sm pb-4 px-4">
+          <p className="flex items-center justify-center gap-2 flex-wrap">
+            {hasMultipleImages && (
+              <>
+                <span className="flex items-center gap-1">
+                  <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16l-4-4m0 0l4-4m-4 4h18" />
+                  </svg>
+                  <span className="hidden sm:inline">Arrow keys or swipe</span>
+                  <span className="sm:hidden">Swipe</span>
+                  <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                  </svg>
+                </span>
+                <span className="text-white/50">•</span>
+              </>
+            )}
+            <span>Tap to zoom</span>
+            <span className="text-white/50">•</span>
+            <span className="hidden sm:inline">Press Z to zoom • Press T for gallery •</span>
+            <span>Press Esc to close</span>
           </p>
         </div>
       </div>

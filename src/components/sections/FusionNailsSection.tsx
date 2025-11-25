@@ -96,25 +96,29 @@ export function FusionNailsSection({
     });
   };
 
+  const navigateLightbox = (newIndex: number) => {
+    setLightbox((prev) => ({ ...prev, currentIndex: newIndex }));
+  };
+
   return (
     <>
       <section
         id="fusion-nails"
-        className="relative bg-gradient-to-br from-rose-100 via-pink-100 to-orange-100 py-fluid-3xl px-fluid-xl w-full"
+        className="relative bg-gradient-to-br from-rose-100 via-pink-100 to-orange-100 py-fluid-3xl px-fluid-md w-full"
       >
         {/* Background decoration - responsive */}
         <div className="absolute top-20 left-1/4 w-20 h-20 sm:w-40 sm:h-40 bg-gradient-to-br from-rose-300 to-pink-400 rounded-full opacity-15 animate-pulse"></div>
         <div className="absolute bottom-20 right-1/4 w-16 h-16 sm:w-32 sm:h-32 bg-gradient-to-br from-orange-300 to-red-400 rounded-full opacity-20 animate-pulse delay-1000"></div>
 
         <div className="max-w-7xl mx-auto relative z-10">
-          <div className="text-center mb-fluid-3xl">
+          <div className="text-center mb-fluid-2xl">
             <h2
               id="fusion-nails"
-              className="text-fluid-4xl sm:text-fluid-5xl lg:text-fluid-6xl font-heading font-bold bg-gradient-to-r from-rose-600 via-pink-600 to-orange-500 bg-clip-text text-transparent mb-fluid-xl"
+              className="text-section-h2 font-heading font-bold text-gradient-gold-peach-coral mb-fluid-xl"
             >
               Fusion Nails
             </h2>
-            <p className="text-fluid-lg font-body font-normal text-gray-600 max-w-3xl mx-auto leading-relaxed">
+            <p className="text-body-guideline font-body font-normal text-gray-600 max-w-3xl mx-auto leading-relaxed">
               Creative nail artistry combining colors, stickers,
               and topcoats for unique, eye-catching designs that
               complement my makeup work.
@@ -122,7 +126,7 @@ export function FusionNailsSection({
           </div>
 
           {/* Desktop Grid - Aligned with Featured Work */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-fluid-lg max-w-6xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-fluid-lg mb-fluid-xl max-w-6xl mx-auto">
             {[
               {
                 id: "nails-cosmic-chrome",
@@ -238,14 +242,14 @@ export function FusionNailsSection({
                   subtitleGradient:
                     "from-rose-600 to-orange-500",
                 }}
-                className="w-full"
+                className="w-full p-fluid-md"
               />
             ))}
           </div>
 
           {/* Mobile Slider */}
           <div className="md:hidden">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-fluid-lg">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-fluid-lg mb-fluid-xl">
               {FEATURED_NAILS_DATA.map((nail, index) => (
                 <SliderCard
                   key={nail.id || index}
@@ -297,7 +301,7 @@ export function FusionNailsSection({
           </div>
 
           {/* Call to Action */}
-          <div className="text-center mt-fluid-2xl">
+          <div className="text-center">
             <button
               onClick={() => setCurrentPage("portfolio")}
               className="w-full sm:w-auto justify-center text-center bg-gradient-gold-peach-coral text-white px-button py-button rounded-lg font-body font-medium shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-orange-200 focus:ring-opacity-50"
@@ -312,6 +316,7 @@ export function FusionNailsSection({
       <EnhancedLightbox
         isOpen={lightbox.isOpen}
         onClose={closeLightbox}
+        onNavigate={navigateLightbox}
         images={lightbox.images}
         currentIndex={lightbox.currentIndex}
         title={lightbox.title}

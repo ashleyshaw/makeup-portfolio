@@ -39,7 +39,7 @@ export const SOCIAL_LINKS = [
   },
   {
     platform: "Email",
-    url: "mailto:ashley@lightspeedwp.agency",
+    url: "mailto:ashley@ashshaw.makeup",
     icon: "email",
   },
 ];
@@ -171,89 +171,12 @@ export const PORTFOLIO_HERO_IMAGES = [
 ];
 
 /**
- * Featured work portfolio data for homepage showcase
- * Three carefully selected pieces representing diverse makeup artistry
- *
- * @constant {Array<PortfolioItem>} FEATURED_WORK_DATA
- * @property {string} image - Figma asset path for optimized image loading
- * @property {string} title - Descriptive title capturing the artistic essence
- * @property {string} location - Event or venue context for storytelling
- * @property {string} description - Detailed description for accessibility and engagement
+ * NOTE: Featured work data has been moved to the unified portfolio service
+ * @see /utils/portfolioService.ts for the complete unified portfolio system
+ * 
+ * This ensures consistency between homepage FeaturedSection and PortfolioMainPage.
+ * Both components now use the same data source and category system.
  */
-export const FEATURED_WORK_DATA = [
-  {
-    id: "featured-euphoria",
-    title: "Festival Euphoria",
-    subtitle: "Origin Festival 2024",
-    description:
-      "Explosive joy and vibrant rainbow face art with purple mohawk capturing the pure ecstasy of festival life.",
-    images: [
-      {
-        src: "figma:asset/d8318691814641489012d566eabb177100553bae.png",
-        alt: "Festival Euphoria - vibrant rainbow face art with purple mohawk at Origin Festival 2024",
-        caption: "Rainbow Euphoria",
-        description:
-          "Explosive joy and vibrant rainbow face art with purple mohawk",
-      },
-      {
-        src: "figma:asset/2fed1a57607a8fc1db766165f6ef2f1aad000d8f.png",
-        alt: "Festival Euphoria - alternative angle with bold colors",
-        caption: "Bold Expression",
-        description:
-          "Alternative view showing the full festival energy",
-      },
-    ],
-    category: "Featured Work",
-  },
-  {
-    id: "featured-warrior",
-    title: "Forest Warrior",
-    subtitle: "Origin Festival 2024",
-    description:
-      "Bold red and purple face design with glittery accents creating a fierce yet beautiful festival look.",
-    images: [
-      {
-        src: "figma:asset/2fed1a57607a8fc1db766165f6ef2f1aad000d8f.png",
-        alt: "Forest Warrior - bold red and purple face design at Origin Festival 2024",
-        caption: "Fierce Beauty",
-        description:
-          "Bold red and purple face design with glittery accents",
-      },
-      {
-        src: "figma:asset/331df4a51ff06bdb04af13b88dff96372b69a2a8.png",
-        alt: "Forest Warrior - detail shot of intricate design work",
-        caption: "Intricate Details",
-        description:
-          "Close-up showcasing the detailed artistry and technique",
-      },
-    ],
-    category: "Featured Work",
-  },
-  {
-    id: "featured-magic",
-    title: "New Year Magic",
-    subtitle: "Little Forest NYE 2023/2024",
-    description:
-      "Contemplative face art with golden and blue tones, welcoming the new year with peaceful forest energy.",
-    images: [
-      {
-        src: "figma:asset/331df4a51ff06bdb04af13b88dff96372b69a2a8.png",
-        alt: "New Year Magic - golden and blue face art at Little Forest NYE 2023/2024",
-        caption: "Peaceful Energy",
-        description:
-          "Contemplative face art with golden and blue tones",
-      },
-      {
-        src: "figma:asset/d8318691814641489012d566eabb177100553bae.png",
-        alt: "New Year Magic - celebratory moment with friends",
-        caption: "Celebration",
-        description:
-          "Capturing the joy and connection of New Year's celebration",
-      },
-    ],
-    category: "Featured Work",
-  },
-];
 
 /**
  * Featured nail art data for homepage Fusion Nails section
@@ -272,13 +195,13 @@ export const FEATURED_NAILS_DATA = [
       "Vibrant red and green festival vibes with metallic accents",
     images: [
       {
-        src: "figma:asset/9e303dff82a3638ff2625856cacc61e3b399ae18.png",
+        src: "https://images.unsplash.com/photo-1701626772688-909f2a0712bf?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxuZW9uJTIwbmFpbCUyMGFydCUyMHZpYnJhbnQlMjBjb2xvcnN8ZW58MXx8fHwxNzU5Mjk3MTY1fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
         alt: "Neon Pop nails - vibrant red and green with metallic accents",
         caption: "Neon Pop",
         description: "Bold festival-inspired nail art",
       },
       {
-        src: "figma:asset/deb2b4ab4cb25c5e47b960708fce6ea552ee6039.png",
+        src: "https://images.unsplash.com/photo-1678329190070-2c98fb9c0d01?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxncmFkaWVudCUyMG5haWwlMjBkZXNpZ24lMjBtZXRhbGxpY3xlbnwxfHx8fDE3NTkyOTcxNjl8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
         alt: "Neon Pop nails - alternative view showing texture",
         caption: "Metallic Details",
         description:
@@ -293,14 +216,14 @@ export const FEATURED_NAILS_DATA = [
     description: "Purple to green ombre with metallic finish",
     images: [
       {
-        src: "figma:asset/deb2b4ab4cb25c5e47b960708fce6ea552ee6039.png",
+        src: "https://images.unsplash.com/photo-1678329190070-2c98fb9c0d01?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxncmFkaWVudCUyMG5haWwlMjBkZXNpZ24lMjBtZXRhbGxpY3xlbnwxfHx8fDE3NTkyOTcxNjl8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
         alt: "Gradient Dreams nails - purple to green ombre with metallic finish",
         caption: "Gradient Dreams",
         description:
           "Smooth color transition with metallic topcoat",
       },
       {
-        src: "figma:asset/1ec0ba217cad06e2cff662a25a050b0401d1092a.png",
+        src: "https://images.unsplash.com/photo-1590926918555-c058b85940d6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxnYWxheHklMjBuYWlsJTIwYXJ0JTIwaXJpZGVzY2VudCUyMHNoaW1tZXJ8ZW58MXx8fHwxNzU5Mjk3MTczfDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
         alt: "Gradient Dreams nails - showing different lighting",
         caption: "Color Shift",
         description:
@@ -316,14 +239,14 @@ export const FEATURED_NAILS_DATA = [
       "Iridescent blues and greens with cosmic shimmer",
     images: [
       {
-        src: "figma:asset/1ec0ba217cad06e2cff662a25a050b0401d1092a.png",
+        src: "https://images.unsplash.com/photo-1590926918555-c058b85940d6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxnYWxheHklMjBuYWlsJTIwYXJ0JTIwaXJpZGVzY2VudCUyMHNoaW1tZXJ8ZW58MXx8fHwxNzU5Mjk3MTczfDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
         alt: "Galaxy Nails - iridescent blues and greens with cosmic shimmer",
         caption: "Galaxy Nails",
         description:
           "Cosmic-inspired design with iridescent finish",
       },
       {
-        src: "figma:asset/9e303dff82a3638ff2625856cacc61e3b399ae18.png",
+        src: "https://images.unsplash.com/photo-1701626772688-909f2a0712bf?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxuZW9uJTIwbmFpbCUyMGFydCUyMHZpYnJhbnQlMjBjb2xvcnN8ZW58MXx8fHwxNzU5Mjk3MTY1fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
         alt: "Galaxy Nails - detail of shimmer effect",
         caption: "Cosmic Shimmer",
         description:
@@ -410,6 +333,37 @@ export const THAILAND_WORK_DATA = [
  */
 export const FESTIVAL_WORK_DATA = [
   {
+    id: "jungle-festival-koh-phangan",
+    title: "Jungle Festival Magic",
+    subtitle: "Koh Phangan, Friday 26 September",
+    description:
+      "Tropical UV artistry in the heart of Thailand's jungle paradise, blending neon glow with natural island energy.",
+    images: [
+      {
+        src: "https://images.unsplash.com/photo-1533408944756-4950754f3ebc?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxqdW5nbGUlMjBmZXN0aXZhbCUyMG1ha2V1cCUyMFVWJTIwbmVvbnxlbnwxfHx8fDE3NTkyMzc4MDV8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
+        alt: "Jungle Festival Magic - neon UV makeup glowing in tropical jungle setting",
+        caption: "Jungle Glow",
+        description:
+          "Vibrant UV reactive makeup creating magical glow effects in the jungle paradise",
+      },
+      {
+        src: "https://images.unsplash.com/photo-1611253291108-bca55a6dfadc?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx0cm9waWNhbCUyMGZhY2UlMjBwYWludCUyMGZlc3RpdmFsfGVufDF8fHx8MTc1OTIzNzgxM3ww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
+        alt: "Jungle Festival Magic - tropical face paint with nature-inspired designs",
+        caption: "Tropical Artistry",
+        description:
+          "Nature-inspired tropical face paint celebrating the connection between art and jungle environment",
+      },
+      {
+        src: "https://images.unsplash.com/photo-1609021622596-1883cb66e2c0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxnbG93JTIwcGFpbnQlMjBibGFja2xpZ2h0JTIwbWFrZXVwfGVufDF8fHx8MTc1OTIzNzgxOXww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
+        alt: "Jungle Festival Magic - blacklight reactive paint creating electric atmosphere",
+        caption: "Electric Nights",
+        description:
+          "Blacklight reactive artistry transforming the jungle night into an electric wonderland",
+      },
+    ],
+    category: "Festival Makeup",
+  },
+  {
     id: "festival-euphoria",
     title: "Festival Euphoria",
     subtitle: "Origin Festival 2024",
@@ -448,7 +402,7 @@ export const FESTIVAL_WORK_DATA = [
       "Bold red and purple face design with glittery accents creating a fierce yet beautiful festival look.",
     images: [
       {
-        src: "figma:asset/2fed1a57607a8fc1db766165f6ef2f1aad000d8f.png",
+        src: "https://images.unsplash.com/photo-1667322219556-fe9966377c48?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxmZXN0aXZhbCUyMG1ha2V1cCUyMGJsdWUlMjBmYWNlJTIwc3RyaXBlcyUyMGhhcHB5fGVufDF8fHx8MTc1NzU5MTY0Nnww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
         alt: "Forest Warrior - bold red and purple face design with glittery accents at Origin Festival 2024",
         caption: "Main Look",
         description:
@@ -471,7 +425,7 @@ export const FESTIVAL_WORK_DATA = [
       "Contemplative face art with golden and blue tones, welcoming the new year with peaceful forest energy.",
     images: [
       {
-        src: "figma:asset/331df4a51ff06bdb04af13b88dff96372b69a2a8.png",
+        src: "https://images.unsplash.com/photo-1755223736694-3863b2f81de2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxhcnRpc3RpYyUyMGZhY2UlMjBtYWtldXAlMjBnb2xkZW4lMjBibHVlJTIwdG9uZXN8ZW58MXx8fHwxNzU5MzI2MjAyfDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
         alt: "New Year Magic - contemplative face art with golden and blue tones at Little Forest NYE 2023/2024",
         caption: "Main Look",
         description:
@@ -771,17 +725,24 @@ export const NAIL_ART_DATA = [
 ];
 
 /**
- * Portfolio sections configuration for the portfolio page
- * Organizes different makeup artistry categories with structured metadata
+ * Portfolio sections configuration with Contentful tag mapping
+ * Each section corresponds to specific tags in Contentful for dynamic content management
+ * This allows content creators to tag entries in Contentful and have them automatically 
+ * appear in the correct portfolio sections on the website.
  *
  * @constant {Array<PortfolioSection>} PORTFOLIO_SECTIONS
  * @property {string} id - Unique section identifier for navigation and styling
  * @property {string} title - Display title for the portfolio section
  * @property {string} description - Descriptive text explaining the section content
+ * @property {string[]} contentfulTags - Array of Contentful tags to filter content for this section
+ * @property {string} fallbackCategory - Fallback category if no tagged content is found
  * @property {string} gradientFrom - Starting color for section gradient theming
  * @property {string} gradientTo - Ending color for section gradient theming
- * @property {Array<Object>} images - Array of image objects with src, alt, caption, description
- * @property {Object} [cta] - Optional call-to-action configuration
+ * @property {string} backgroundGradient - Tailwind gradient classes for background
+ * @property {string} titleGradient - Tailwind gradient classes for section titles
+ * @property {string} subtitleGradient - Tailwind gradient classes for subtitles
+ * @property {Array<string>} decorativeColors - Hex colors for floating decorative elements
+ * @property {Array<PortfolioItem>} entries - Static portfolio items (fallback when Contentful unavailable)
  */
 export const PORTFOLIO_SECTIONS = [
   {
@@ -789,6 +750,8 @@ export const PORTFOLIO_SECTIONS = [
     title: "Featured Work",
     description:
       "Standout pieces that capture the essence of festival artistry and creative expression.",
+    contentfulTags: ["featured", "portfolio-highlight", "showcase"],
+    fallbackCategory: "featured",
     gradientFrom: "#FF66CC",
     gradientTo: "#9933FF",
     backgroundGradient:
@@ -801,13 +764,15 @@ export const PORTFOLIO_SECTIONS = [
       "#3b82f6",
       "#6366f1",
     ],
-    entries: FEATURED_WORK_DATA,
+    entries: [], // Now handled by unified portfolio service
   },
   {
     id: "festivals",
     title: "Festival Adventures",
     description:
       "From Origin Festival's explosive energy to Little Forest's peaceful New Year celebrations — capturing the diverse spirit of festival culture through bold face art and vibrant self-expression.",
+    contentfulTags: ["festival", "music-festival", "face-paint", "celebration"],
+    fallbackCategory: "festival",
     gradientFrom: "#ff9500", // Orange
     gradientTo: "#32cd32", // Green
     backgroundGradient:
@@ -828,6 +793,8 @@ export const PORTFOLIO_SECTIONS = [
     title: "Thailand Adventures",
     description:
       "Tropical makeup exploration during travels through Thailand, blending local culture with artistic expression.",
+    contentfulTags: ["thailand", "travel", "tropical", "culture"],
+    fallbackCategory: "travel",
     gradientFrom: "#FFD700",
     gradientTo: "#FF9966",
     backgroundGradient:
@@ -847,6 +814,8 @@ export const PORTFOLIO_SECTIONS = [
     title: "Shankra Festival 2023",
     description:
       "Swiss mountain festival experiences with alpine-inspired makeup artistry in breathtaking natural settings.",
+    contentfulTags: ["shankra", "switzerland", "mountain-festival", "alpine"],
+    fallbackCategory: "swiss-festivals",
     gradientFrom: "#32CD32",
     gradientTo: "#20C997",
     backgroundGradient:
@@ -866,6 +835,8 @@ export const PORTFOLIO_SECTIONS = [
     title: "Reiserfieber Switzerland",
     description:
       "Mountain celebration makeup showcasing the vibrant energy of Swiss outdoor festival culture.",
+    contentfulTags: ["reiserfieber", "switzerland", "outdoor-festival", "mountain"],
+    fallbackCategory: "swiss-festivals",
     gradientFrom: "#9933FF",
     gradientTo: "#3399FF",
     backgroundGradient:
@@ -885,6 +856,8 @@ export const PORTFOLIO_SECTIONS = [
     title: "UV & Blacklight",
     description:
       "Electric nightlife artistry using UV-reactive paints that come alive under blacklight, perfect for clubs and raves.",
+    contentfulTags: ["uv", "blacklight", "nightlife", "rave", "club"],
+    fallbackCategory: "uv-makeup",
     gradientFrom: "#FF5E62",
     gradientTo: "#FF66CC",
     backgroundGradient:
@@ -904,6 +877,8 @@ export const PORTFOLIO_SECTIONS = [
     title: "Fusion Nails",
     description:
       "Creative nail artistry combining colors, textures, and innovative techniques for unique finger-focused designs.",
+    contentfulTags: ["nails", "nail-art", "fusion-nails", "manicure"],
+    fallbackCategory: "nail-art",
     gradientFrom: "#FF9966",
     gradientTo: "#FF5E62",
     backgroundGradient:

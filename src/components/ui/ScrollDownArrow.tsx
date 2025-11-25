@@ -96,20 +96,23 @@ export function ScrollDownArrow({
     <button
       onClick={handleClick}
       className={`
-        group absolute bottom-16 md:bottom-20 left-1/2 transform -translate-x-1/2
+        group absolute bottom-32 md:bottom-40 left-1/2
         w-14 h-14 md:w-16 md:h-16
-        bg-white/95 backdrop-blur-sm
-        border border-pink-200/50
+        bg-white backdrop-blur-sm
+        border-2 border-pink-500
         rounded-full
         shadow-md shadow-pink-200/20
         flex items-center justify-center
         transition-all duration-500 ease-out
         hover:scale-105 hover:shadow-lg hover:shadow-pink-200/30
         focus:outline-none focus:ring-4 focus:ring-pink-300/50 focus:ring-offset-2
-        animate-subtle-float
+        animate-scroll-down-arrow
         z-50
         ${className}
       `}
+      style={{
+        transform: 'translateX(-50%)'
+      }}
       aria-label={ariaLabel}
       type="button"
     >

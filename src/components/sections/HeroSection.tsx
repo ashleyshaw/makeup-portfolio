@@ -10,7 +10,7 @@ import React, { useState } from "react";
 import imgHeroImage1 from "figma:asset/7aeb80239b9fc61876f42ca779badabf1651bb2c.png";
 import imgHeroImage2 from "figma:asset/b013338a3126efe5c475db2f25c54b560aaf020f.png";
 import imgHeroImage3 from "figma:asset/97bc32da10ca77968fe99531c50669a75c3be78e.png";
-import { Lightbox } from "../ui/lightbox";
+import { EnhancedLightbox } from "../ui/EnhancedLightbox";
 
 /**
  * Hero section component with artistic image mosaic and brand messaging
@@ -48,13 +48,13 @@ import { Lightbox } from "../ui/lightbox";
 export function HeroSection() {
   const [lightbox, setLightbox] = useState<{
     isOpen: boolean;
-    imageSrc: string;
-    imageAlt: string;
+    images: Array<{ src: string; alt: string; }>;
+    currentIndex: number;
     title?: string;
   }>({
     isOpen: false,
-    imageSrc: "",
-    imageAlt: "",
+    images: [],
+    currentIndex: 0,
     title: "",
   });
 
@@ -63,21 +63,26 @@ export function HeroSection() {
     imageAlt: string,
     title?: string,
   ) => {
-    setLightbox({ isOpen: true, imageSrc, imageAlt, title });
+    setLightbox({ 
+      isOpen: true, 
+      images: [{ src: imageSrc, alt: imageAlt }], 
+      currentIndex: 0, 
+      title 
+    });
   };
 
   const closeLightbox = () => {
     setLightbox({
       isOpen: false,
-      imageSrc: "",
-      imageAlt: "",
+      images: [],
+      currentIndex: 0,
       title: "",
     });
   };
 
   return (
     <>
-      <section className="relative bg-gradient-to-br from-pink-50 via-purple-50 to-blue-50 py-fluid-3xl px-fluid-xl overflow-hidden">
+      <section className="relative bg-gradient-to-br from-pink-50 via-purple-50 to-blue-50 py-fluid-3xl px-fluid-md overflow-hidden">
         {/* Floating gradient orbs - responsive sizes */}
         <div className="absolute top-10 left-4 sm:left-10 w-16 h-16 sm:w-32 sm:h-32 bg-gradient-to-br from-pink-300 to-purple-400 rounded-full opacity-20 animate-pulse"></div>
         <div className="absolute top-20 right-8 sm:right-20 w-12 h-12 sm:w-24 sm:h-24 bg-gradient-to-br from-blue-300 to-teal-400 rounded-full opacity-25 animate-pulse delay-1000"></div>
@@ -86,32 +91,32 @@ export function HeroSection() {
         <div className="max-w-7xl mx-auto relative z-10">
           <div className="flex flex-col lg:flex-row items-center gap-fluid-2xl lg:gap-20">
             <div className="flex-1 max-w-2xl text-center lg:text-left">
-              <p className="text-fluid-xl font-body font-medium bg-gradient-to-r from-pink-500 to-purple-600 bg-clip-text text-transparent mb-fluid-xl">
+              <p className="text-fluid-xl font-body font-medium text-gradient-pink-purple-blue mb-fluid-xl">
                 Hi, I'm Ash Shaw.
               </p>
-              <h1 className="text-fluid-5xl sm:text-fluid-6xl lg:text-fluid-7xl font-heading font-bold text-gray-800 leading-tight mb-fluid-xl">
+              <h1 className="text-hero-h1 font-heading font-bold text-gray-800 leading-tight mb-fluid-xl">
                 Makeup that shines with{" "}
-                <em className="italic bg-gradient-to-r from-pink-500 to-rose-500 bg-clip-text text-transparent">
+                <em className="italic text-gradient-pink-purple-blue">
                   colour
                 </em>
                 ,{" "}
-                <em className="italic bg-gradient-to-r from-purple-500 to-violet-500 bg-clip-text text-transparent">
+                <em className="italic text-gradient-pink-purple-blue">
                   energy
                 </em>
                 , and{" "}
-                <em className="italic bg-gradient-to-r from-blue-500 to-cyan-500 bg-clip-text text-transparent">
+                <em className="italic text-gradient-blue-teal-green">
                   connection
                 </em>
                 .
               </h1>
-              <p className="text-fluid-lg font-body font-normal text-gray-600 leading-relaxed mb-fluid-xl">
+              <p className="text-body-guideline font-body font-normal text-gray-600 leading-relaxed mb-fluid-xl">
                 Makeup is my art, my joy, and my way of bringing
                 people together. From festivals to the dance
                 floor, I use colour and light to create looks
                 that make people feel radiant, confident, and
                 alive.
               </p>
-              <p className="text-fluid-lg font-body font-medium bg-gradient-to-r from-pink-500 to-purple-500 bg-clip-text text-transparent">
+              <p className="text-fluid-lg font-body font-medium text-gradient-pink-purple-blue">
                 ✨ This portfolio is a growing collection of
                 that journey.
               </p>
@@ -179,11 +184,11 @@ export function HeroSection() {
         </div>
       </section>
 
-      <Lightbox
+      <EnhancedLightbox
         isOpen={lightbox.isOpen}
         onClose={closeLightbox}
-        imageSrc={lightbox.imageSrc}
-        imageAlt={lightbox.imageAlt}
+        images={lightbox.images}
+        currentIndex={lightbox.currentIndex}
         title={lightbox.title}
       />
     </>

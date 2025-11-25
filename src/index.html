@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     
+
     <!-- SEO Meta Tags -->
     <title>Ash Shaw - Makeup Artist Portfolio</title>
     <meta name="description" content="Professional makeup artist specializing in festival artistry, UV makeup, and creative expression. Based in Berlin, serving the nightclub scene since 2019." />
@@ -25,27 +26,18 @@
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="alternate icon" href="/favicon.ico" />
     
-    <!-- Preconnect to external domains for performance -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,600;1,700;1,800;1,900&family=Inter:wght@300;400;500;600;700;800;900&family=Righteous&display=swap" rel="stylesheet" />
+    <!-- Self-Hosted Fonts Preloading for Optimal Performance -->
+    <link rel="preload" href="/fonts/playfair-display/playfair-display-regular.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/playfair-display/playfair-display-semibold.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/inter/inter-regular.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/inter/inter-medium.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/righteous/righteous-regular.woff2" as="font" type="font/woff2" crossorigin />
     
     <!-- Accessibility -->
     <meta name="theme-color" content="#ff66cc" />
     <meta name="color-scheme" content="light" />
-    
-    <!-- Performance hints -->
-    <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
-    <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
   </head>
   <body>
-    <!-- Skip to main content link for accessibility -->
-    <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-pink-600 text-white px-4 py-2 rounded-lg z-50">
-      Skip to main content
-    </a>
-    
     <!-- Root element for React app -->
     <div id="root"></div>
     

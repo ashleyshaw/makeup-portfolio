@@ -80,7 +80,7 @@ export function WhySection({
     <div className="text-center">
       <h2
         id="why-section"
-        className="text-fluid-4xl sm:text-fluid-5xl lg:text-fluid-6xl font-heading font-bold bg-gradient-to-r from-gray-800 via-purple-700 to-pink-600 bg-clip-text text-transparent mb-fluid-lg"
+        className="text-section-h2 font-heading font-bold text-gradient-pink-purple-blue mb-fluid-lg"
       >
         Why I Do Makeup
       </h2>
@@ -91,7 +91,7 @@ export function WhySection({
     <div className="text-center">
       <button
         onClick={() => setCurrentPage("about")}
-        className="w-full sm:w-auto justify-center text-center bg-gradient-pink-purple-blue text-white px-button py-button rounded-lg font-body font-medium shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-pink-200 focus:ring-opacity-50"
+        className="w-full sm:w-auto justify-center text-center bg-gradient-pink-purple-blue text-white px-button py-button rounded-lg font-body font-medium text-button-fluid shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-pink-200 focus:ring-opacity-50"
         aria-label="Navigate to About page to read full story"
       >
         Read My Full Story
@@ -119,12 +119,12 @@ export function WhySection({
         return (
           <div
             key={index}
-            className="text-center cursor-pointer group bg-white/60 backdrop-blur-sm rounded-3xl p-fluid-md shadow-lg hover:shadow-xl transition-all duration-300 border border-white/50 h-full"
+            className="text-center cursor-pointer group bg-white/60 backdrop-blur-sm rounded-xl p-fluid-md shadow-lg hover:shadow-xl transition-all duration-300 border border-white/50 h-full"
             onClick={() => setCurrentPage("about")}
           >
             <div className="mb-fluid-lg flex justify-center">
               {reason.title === "Spread Joy" ? (
-                <div className="w-32 h-32 group-hover:scale-110 transition-transform duration-300 flex items-center justify-center">
+                <div className="w-32 h-32 group-hover:scale-110 transition-transform duration-500 flex items-center justify-center">
                   <svg
                     viewBox="0 0 120 120"
                     className="w-full h-full"
@@ -296,7 +296,7 @@ export function WhySection({
                   </svg>
                 </div>
               ) : reason.title === "Brings Me Joy" ? (
-                <div className="w-32 h-32 group-hover:scale-110 transition-transform duration-300 flex items-center justify-center">
+                <div className="w-32 h-32 group-hover:scale-110 transition-transform duration-500 flex items-center justify-center">
                   <svg
                     viewBox="0 0 120 120"
                     className="w-full h-full"
@@ -515,7 +515,7 @@ export function WhySection({
                   </svg>
                 </div>
               ) : reason.title === "To Keep Growing" ? (
-                <div className="w-32 h-32 group-hover:scale-110 transition-transform duration-300 flex items-center justify-center">
+                <div className="w-32 h-32 group-hover:scale-110 transition-transform duration-500 flex items-center justify-center">
                   <svg
                     viewBox="0 0 120 120"
                     className="w-full h-full"

@@ -2,12 +2,65 @@
 @tailwind components;
 @tailwind utilities;
 
+/* OPTIMIZED VARIABLE FONT SYSTEM - Bulletproof Loading with Performance */
+
+/* Inter Variable Font - Complete weight range 100-900 */
+@font-face {
+  font-family: 'Inter';
+  src: url('/fonts/inter-variable.woff2') format('woff2-variations');
+  font-weight: 100 900; /* Supports all weights from thin to black */
+  font-style: normal;
+  font-display: swap;
+  font-variation-settings: 'slnt' 0; /* No slant for normal style */
+}
+
+/* Playfair Display Variable Font - Weight range 400-900 */
+@font-face {
+  font-family: 'Playfair Display';
+  src: url('/fonts/playfair-display-variable.woff2') format('woff2-variations');
+  font-weight: 400 900; /* Supports regular to heavy weights */
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Playfair Display Variable Italic - Optional for italic styles */
+@font-face {
+  font-family: 'Playfair Display';
+  src: url('/fonts/playfair-display-variable-italic.woff2') format('woff2-variations');
+  font-weight: 400 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+/* Righteous Regular - Single weight display font (no variable version needed) */
+@font-face {
+  font-family: 'Righteous';
+  src: url('/fonts/righteous-regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
 @layer base {
   :root {
-    --font-size: 18px;
-    --font-heading: "Playfair Display", serif;
-    --font-body: "Inter", sans-serif;
-    --font-title: "Righteous", cursive;
+    /* Brand Font Families - Enhanced with variable font capabilities */
+    --font-heading: "Playfair Display", "Times New Roman", "Times", serif;
+    --font-body: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+    --font-title: "Righteous", "Arial Black", "Helvetica", sans-serif;
+
+    /* Enhanced Font Weight Variables - Now supports custom weights with variable fonts */
+    --font-weight-light: 300;
+    --font-weight-regular: 400;
+    --font-weight-medium: 500;
+    --font-weight-semibold: 600;
+    --font-weight-bold: 700;
+    --font-weight-extrabold: 800; /* Now available with variable fonts! */
+    
+    /* Custom intermediate weights - Only possible with variable fonts */
+    --font-weight-book: 450;      /* Between regular and medium */
+    --font-weight-demibold: 650;  /* Between semibold and bold */
+
+    /* Brand Color System - Guidelines Compliant */
     --background: #ffffff;
     --foreground: #0f172a;
     --card: #ffffff;
@@ -27,9 +80,9 @@
     --border: #e2e8f0;
     --input: #e2e8f0;
     --ring: #64748b;
-    --radius: 0.625rem;
+    --radius: 1.125rem;
 
-    /* Guidelines-compliant brand colors */
+    /* Guidelines-Compliant Brand Gradients */
     --gradient-pink-purple-blue-start: #ff66cc;
     --gradient-pink-purple-blue-middle: #9933ff;
     --gradient-pink-purple-blue-end: #3399ff;
@@ -42,44 +95,61 @@
     --gradient-gold-peach-coral-middle: #ff9966;
     --gradient-gold-peach-coral-end: #ff5e62;
 
-    /* Guidelines-compliant typography scales */
-    --text-hero-h1: clamp(2.25rem, 6vw, 7.5rem);
-    --text-section-h2: clamp(1.5rem, 4vw, 3rem);
-    --text-body-guideline: clamp(1rem, 1.5vw, 1.25rem);
-    --text-quote-large: clamp(2rem, 5vw, 5rem);
-    --text-button-fluid: clamp(1.25rem, 2vw, 2rem);
+    /* WordPress 6.6+ Inspired Typography Scale - Height-Aware Responsive */
+    /* Mobile-first fluid typography with VW + VH calculations for better viewport adaptation */
+    /* 320px mobile: 1vw = 3.2px | 480px mobile: 1vw = 4.8px | 768px tablet: 1vw = 7.68px */
+    /* 600px height: 1vh = 6px | 800px height: 1vh = 8px | 1000px height: 1vh = 10px */
+    
+    --text-hero-h1: clamp(2.25rem, min(4vw + 1rem, 3vh + 2rem), 7.5rem); /* Height-aware scaling: 36px → 120px with vh consideration */
+    --text-section-h2: clamp(1.5rem, min(3vw + 0.5rem, 2.5vh + 1rem), 3rem);      /* Height-aware section headings */
+    --text-body-guideline: clamp(1rem, 1.2vw + 0.2rem, 1.25rem); /* 16px → 20px (refined for readability) */
+    --text-quote-large: clamp(2rem, min(4vw + 0.5rem, 3vh + 1rem), 5rem);       /* Height-aware quotes */
+    --text-button-fluid: clamp(1.25rem, 1.5vw + 0.5rem, 2rem); /* 20px → 32px (optimized touch targets) */
 
-    /* Guidelines-compliant spacing */
-    --card-padding-mobile: clamp(0.5rem, 2vw, 1rem);
-    --card-padding-desktop: clamp(2rem, 5vw, 6rem);
-    --section-spacing: clamp(2rem, 6vw, 6rem);
-    --button-padding-x: clamp(1rem, 2vw, 3.375rem);
-    --button-padding-y: clamp(1rem, 2vw, 2rem);
+    /* WordPress-Inspired Fluid Typography System - Optimized VW Progression */
+    /* Typography scale: 1.25 (Major Third) with precise VW calculations */
+    /* Mobile optimization: Reduced VW impact for better mobile readability */
+    /* Desktop enhancement: Smooth scaling without jarring jumps */
+    
+    --text-xs: clamp(0.75rem, 0.65rem + 0.5vw, 0.875rem);      /* 12px → 14px (enhanced mobile readability) */
+    --text-sm: clamp(0.875rem, 0.75rem + 0.625vw, 1rem);       /* 14px → 16px (smoother progression) */
+    --text-base: clamp(1rem, 0.85rem + 0.75vw, 1.125rem);      /* 16px → 18px (optimal reading size) */
+    --text-lg: clamp(1.125rem, 0.95rem + 0.875vw, 1.25rem);    /* 18px → 20px (balanced scaling) */
+    --text-xl: clamp(1.25rem, 1rem + 1.25vw, 1.5rem);          /* 20px → 24px (improved proportion) */
+    --text-2xl: clamp(1.5rem, 1.2rem + 1.5vw, 2rem);           /* 24px → 32px (smoother desktop scaling) */
+    --text-3xl: clamp(1.875rem, 1.4rem + 2.375vw, 2.5rem);     /* 30px → 40px (enhanced impact) */
+    --text-4xl: clamp(2.25rem, 1.75rem + 2.5vw, 3rem);         /* 36px → 48px (refined progression) */
+    --text-5xl: clamp(2.5rem, 1.9rem + 3vw, 3.5rem);           /* 40px → 56px (optimized for headers) */
+    --text-6xl: clamp(3rem, 2.2rem + 4vw, 4.5rem);             /* 48px → 72px (dramatic scaling) */
+    --text-7xl: clamp(3.5rem, 2.5rem + 5vw, 5rem);             /* 56px → 80px (hero title impact) */
 
-    /* Fluid typography scale */
-    --text-xs: clamp(0.75rem, 0.7rem + 0.25vw, 0.875rem);
-    --text-sm: clamp(0.875rem, 0.8rem + 0.375vw, 1rem);
-    --text-base: clamp(1rem, 0.9rem + 0.5vw, 1.125rem);
-    --text-lg: clamp(1.125rem, 1rem + 0.625vw, 1.25rem);
-    --text-xl: clamp(1.25rem, 1.1rem + 0.75vw, 1.5rem);
-    --text-2xl: clamp(1.5rem, 1.3rem + 1vw, 2rem);
-    --text-3xl: clamp(1.875rem, 1.6rem + 1.375vw, 2.5rem);
-    --text-4xl: clamp(2.25rem, 2rem + 1.25vw, 3rem);
-    --text-5xl: clamp(2.5rem, 2.2rem + 1.5vw, 3.5rem);
-    --text-6xl: clamp(3rem, 2.5rem + 2.5vw, 4.5rem);
-    --text-7xl: clamp(3.5rem, 3rem + 2.5vw, 5rem);
+    /* WordPress spacingScale Inspired Component Spacing - Optimized VW */
+    /* Semantic spacing with mobile-first progression and desktop comfort */
+    --card-padding-mobile: clamp(1rem, 2.5vw + 0.5rem, 2rem);     /* 16px → 32px (enhanced mobile comfort) */
+    --card-padding-desktop: clamp(2rem, 4vw + 1rem, 6rem);        /* 32px → 96px (desktop breathing room) */
+    --section-spacing: clamp(3rem, 6vw + 1rem, 8rem);             /* 48px → 128px (improved section separation) */
+    --button-padding-x: clamp(1.5rem, 2.5vw + 1rem, 3.375rem);    /* 24px → 54px (enhanced touch targets) */
+    --button-padding-y: clamp(1rem, 1.5vw + 0.5rem, 2rem);        /* 16px → 32px (comfortable button height) */
+    
+    /* Block gap spacing for content flow */
+    --block-gap-sm: clamp(0.75rem, 1.5vw + 0.25rem, 1.5rem);      /* Content spacing small */
+    --block-gap-md: clamp(1.5rem, 3vw + 0.5rem, 3rem);            /* Content spacing medium */
+    --block-gap-lg: clamp(2.5rem, 5vw + 1rem, 5rem);              /* Content spacing large */
 
-    /* Fluid spacing scale */
-    --space-xs: clamp(0.25rem, 0.2rem + 0.25vw, 0.5rem);
-    --space-sm: clamp(0.5rem, 0.4rem + 0.5vw, 1rem);
-    --space-md: clamp(1rem, 0.8rem + 1vw, 2rem);
-    --space-lg: clamp(1.5rem, 1.2rem + 1.5vw, 3rem);
-    --space-xl: clamp(2rem, 1.5rem + 2.5vw, 4rem);
-    --space-2xl: clamp(3rem, 2rem + 5vw, 6rem);
-    --space-3xl: clamp(4rem, 3rem + 5vw, 8rem);
-    --space-4xl: clamp(5rem, 4rem + 5vw, 10rem);
-    --space-5xl: clamp(6rem, 5rem + 7.5vw, 15rem);
-    --space-6xl: clamp(8rem, 6rem + 10vw, 18rem);
+    /* WordPress spacingSizes Inspired Fluid Spacing Scale */
+    /* Multiplicative scale with operator "*" and increment 1.5 (WordPress pattern) */
+    /* Optimized VW calculations for smooth mobile-to-desktop progression */
+    
+    --space-xs: clamp(0.25rem, 0.15rem + 0.5vw, 0.5rem);          /* 4px → 8px (micro spacing) */
+    --space-sm: clamp(0.5rem, 0.3rem + 1vw, 1rem);                /* 8px → 16px (small spacing) */
+    --space-md: clamp(1rem, 0.6rem + 2vw, 2rem);                  /* 16px → 32px (medium spacing) */
+    --space-lg: clamp(1.5rem, 1rem + 2.5vw, 3rem);                /* 24px → 48px (large spacing) */
+    --space-xl: clamp(2rem, 1.2rem + 4vw, 4rem);                  /* 32px → 64px (extra large spacing) */
+    --space-2xl: clamp(3rem, 1.5rem + 7.5vw, 6rem);               /* 48px → 96px (section spacing) */
+    --space-3xl: clamp(4rem, 2rem + 10vw, 8rem);                  /* 64px → 128px (major section spacing) */
+    --space-4xl: clamp(5rem, 2.5rem + 12.5vw, 10rem);             /* 80px → 160px (page section spacing) */
+    --space-5xl: clamp(6rem, 3rem + 15vw, 15rem);                 /* 96px → 240px (hero spacing) */
+    --space-6xl: clamp(8rem, 4rem + 20vw, 18rem);                 /* 128px → 288px (dramatic spacing) */
   }
 
   .dark {
@@ -117,60 +187,74 @@
   }
 
   html {
-    font-size: var(--font-size);
+    font-size: 18px;
     scroll-behavior: smooth;
   }
 
-  /* Typography Base Styles */
+  /* Guidelines-Compliant Typography Base Styles - Enhanced with variable font weights */
   h1 {
-    font-family: var(--font-heading);
-    font-size: var(--text-6xl);
-    font-weight: 700;
+    font-family: var(--font-heading) !important;
+    font-size: var(--text-6xl) !important;
+    font-weight: var(--font-weight-bold);
     line-height: 1.1;
     letter-spacing: -0.02em;
+    font-display: swap;
   }
 
   h2 {
-    font-family: var(--font-heading);
-    font-size: var(--text-4xl);
-    font-weight: 600;
+    font-family: var(--font-heading) !important;
+    font-size: var(--text-4xl) !important;
+    font-weight: var(--font-weight-semibold);
     line-height: 1.2;
     letter-spacing: -0.01em;
+    font-display: swap;
   }
 
   h3 {
-    font-family: var(--font-heading);
-    font-size: var(--text-3xl);
-    font-weight: 600;
+    font-family: var(--font-heading) !important;
+    font-size: var(--text-3xl) !important;
+    font-weight: var(--font-weight-semibold);
     line-height: 1.3;
+    font-display: swap;
   }
 
   h4 {
-    font-family: var(--font-heading);
-    font-size: var(--text-2xl);
-    font-weight: 500;
+    font-family: var(--font-heading) !important;
+    font-size: var(--text-2xl) !important;
+    font-weight: var(--font-weight-medium);
     line-height: 1.4;
+    font-display: swap;
   }
 
   h5 {
-    font-family: var(--font-heading);
-    font-size: var(--text-xl);
-    font-weight: 500;
+    font-family: var(--font-heading) !important;
+    font-size: var(--text-xl) !important;
+    font-weight: var(--font-weight-medium);
     line-height: 1.4;
+    font-display: swap;
   }
 
   h6 {
-    font-family: var(--font-heading);
-    font-size: var(--text-lg);
-    font-weight: 500;
+    font-family: var(--font-heading) !important;
+    font-size: var(--text-lg) !important;
+    font-weight: var(--font-weight-medium);
     line-height: 1.4;
+    font-display: swap;
   }
 
   p {
-    font-family: var(--font-body);
-    font-size: var(--text-base);
-    font-weight: 400;
+    font-family: var(--font-body) !important;
+    font-size: var(--text-base) !important;
+    font-weight: var(--font-weight-regular);
     line-height: 1.7;
+    font-display: swap;
+  }
+
+  /* Button and interactive element font enforcement with variable weights */
+  button, .btn, [role="button"] {
+    font-family: var(--font-body) !important;
+    font-weight: var(--font-weight-medium); /* Improved button weight */
+    font-display: swap;
   }
 
   /* Focus visibility */
@@ -181,59 +265,175 @@
 
   /* Screen reader utilities */
   .sr-only {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    padding: 0;
-    margin: -1px;
-    overflow: hidden;
-    clip: rect(0, 0, 0, 0);
-    white-space: nowrap;
-    border: 0;
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    padding: 0 !important;
+    margin: -1px !important;
+    overflow: hidden !important;
+    clip: rect(0, 0, 0, 0) !important;
+    white-space: nowrap !important;
+    border: 0 !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
   }
 
   .sr-only:focus {
-    position: static;
-    width: auto;
-    height: auto;
-    padding: inherit;
-    margin: inherit;
-    overflow: visible;
-    clip: auto;
-    white-space: normal;
-    border: inherit;
+    position: static !important;
+    width: auto !important;
+    height: auto !important;
+    padding: inherit !important;
+    margin: inherit !important;
+    overflow: visible !important;
+    clip: auto !important;
+    white-space: normal !important;
+    border: inherit !important;
+    opacity: 1 !important;
+    visibility: visible !important;
   }
 
   .focus\:not-sr-only:focus {
-    position: static;
-    width: auto;
-    height: auto;
-    padding: inherit;
-    margin: inherit;
-    overflow: visible;
-    clip: auto;
-    white-space: normal;
-    border: inherit;
+    position: static !important;
+    width: auto !important;
+    height: auto !important;
+    padding: inherit !important;
+    margin: inherit !important;
+    overflow: visible !important;
+    clip: auto !important;
+    white-space: normal !important;
+    border: inherit !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+  }
+
+  /* TARGETED: Hide specific skip link patterns - Safe approach */
+  .bypass-link,
+  .bypass-link a {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    position: absolute !important;
+    left: -10000px !important;
+    top: -10000px !important;
+    width: 0 !important;
+    height: 0 !important;
+    pointer-events: none !important;
+    z-index: -999999 !important;
+  }
+
+  /* Target specific skip link elements by role and tabindex combination */
+  a[role="link"][tabindex="0"]:not([class]):not([id]) {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
   }
 }
 
 @layer utilities {
-  /* Custom font classes */
+  /* Brand Font Families - Enhanced with variable font support */
   .font-heading {
-    font-family: var(--font-heading);
+    font-family: var(--font-heading) !important;
+    font-display: swap;
   }
 
   .font-body {
-    font-family: var(--font-body);
+    font-family: var(--font-body) !important;
+    font-display: swap;
   }
 
   .font-title {
-    font-family: var(--font-title);
+    font-family: var(--font-title) !important;
+    font-display: swap;
   }
 
-  /* Guidelines-compliant typography classes */
+  /* Enhanced Font Weight Classes - Now with variable font precision */
+  .font-light {
+    font-weight: var(--font-weight-light) !important; /* 300 */
+  }
+
+  .font-normal {
+    font-weight: var(--font-weight-regular) !important; /* 400 */
+  }
+
+  .font-book {
+    font-weight: var(--font-weight-book) !important; /* 450 - Custom with variable fonts! */
+  }
+
+  .font-medium {
+    font-weight: var(--font-weight-medium) !important; /* 500 */
+  }
+
+  .font-semibold {
+    font-weight: var(--font-weight-semibold) !important; /* 600 */
+  }
+
+  .font-demibold {
+    font-weight: var(--font-weight-demibold) !important; /* 650 - Custom with variable fonts! */
+  }
+
+  .font-bold {
+    font-weight: var(--font-weight-bold) !important; /* 700 */
+  }
+
+  .font-extrabold {
+    font-weight: var(--font-weight-extrabold) !important; /* 800 - Now available! */
+  }
+
+  /* Guidelines-Compliant Typography Classes - REQUIRED for brand consistency */
   .text-hero-h1 {
     font-size: var(--text-hero-h1);
+  }
+
+  /* Height-Aware Typography Utilities for Short Viewports */
+  @media (max-height: 650px) {
+    .text-hero-h1 {
+      font-size: clamp(1.875rem, 3vw + 0.5rem, 4rem); /* Smaller scaling for short viewports: 30px → 64px */
+    }
+    
+    .text-section-h2 {
+      font-size: clamp(1.25rem, 2.5vw + 0.25rem, 2rem); /* Proportionally smaller: 20px → 32px */
+    }
+  }
+
+  @media (max-height: 500px) {
+    .text-hero-h1 {
+      font-size: clamp(1.5rem, 2.5vw + 0.5rem, 3rem); /* Even smaller for very short viewports: 24px → 48px */
+    }
+    
+    .text-section-h2 {
+      font-size: clamp(1.125rem, 2vw + 0.25rem, 1.75rem); /* 18px → 28px */
+    }
+  }
+
+  /* Responsive Spacing for Short Viewports */
+  @media (max-height: 650px) {
+    .py-fluid-3xl {
+      padding-top: clamp(2rem, 4vh, 4rem);
+      padding-bottom: clamp(2rem, 4vh, 4rem);
+    }
+    
+    .mb-fluid-xl {
+      margin-bottom: clamp(1rem, 2vh, 2rem);
+    }
+    
+    .mb-fluid-2xl {
+      margin-bottom: clamp(1.5rem, 3vh, 3rem);
+    }
+  }
+
+  @media (max-height: 500px) {
+    .py-fluid-3xl {
+      padding-top: clamp(1rem, 2vh, 2rem);
+      padding-bottom: clamp(1rem, 2vh, 2rem);
+    }
+    
+    .mb-fluid-xl {
+      margin-bottom: clamp(0.75rem, 1.5vh, 1.5rem);
+    }
+    
+    .mb-fluid-2xl {
+      margin-bottom: clamp(1rem, 2vh, 2rem);
+    }
   }
 
   .text-section-h2 {
@@ -252,7 +452,7 @@
     font-size: var(--text-button-fluid);
   }
 
-  /* Fluid text utilities */
+  /* Extended Fluid Typography System */
   .text-fluid-xs {
     font-size: var(--text-xs);
   }
@@ -297,7 +497,7 @@
     font-size: var(--text-7xl);
   }
 
-  /* Guidelines-compliant gradient backgrounds */
+  /* Guidelines-Compliant Brand Gradients - Background */
   .bg-gradient-pink-purple-blue {
     background: linear-gradient(
       135deg,
@@ -325,7 +525,7 @@
     );
   }
 
-  /* Guidelines-compliant text gradients */
+  /* Guidelines-Compliant Brand Gradients - Text */
   .text-gradient-pink-purple-blue {
     background: linear-gradient(
       135deg,
@@ -362,22 +562,43 @@
     -webkit-text-fill-color: transparent;
   }
 
-  /* Spacing utilities */
-  .p-card-responsive {
-    padding: var(--card-padding-mobile);
+  /* Standard Tailwind Gradient Utilities for SectionCard Component */
+  /* Orange to Amber (Journey theme) */
+  .bg-gradient-to-r.from-orange-500.to-amber-500 {
+    background: linear-gradient(to right, #f97316, #f59e0b);
+  }
+  
+  /* Cyan to Indigo (UV theme) */
+  .bg-gradient-to-r.from-cyan-500.to-indigo-500 {
+    background: linear-gradient(to right, #06b6d4, #6366f1);
+  }
+  
+  /* Green to Teal (Festival theme) */
+  .bg-gradient-to-r.from-green-500.to-teal-500 {
+    background: linear-gradient(to right, #22c55e, #14b8a6);
+  }
+  
+  /* Rose to Red (Mousse theme) */
+  .bg-gradient-to-r.from-rose-500.to-red-500 {
+    background: linear-gradient(to right, #f43f5e, #ef4444);
+  }
+  
+  /* Teal to Green (Nails theme) */
+  .bg-gradient-to-r.from-teal-500.to-green-500 {
+    background: linear-gradient(to right, #14b8a6, #22c55e);
+  }
+  
+  /* Indigo to Violet (Creative theme) */
+  .bg-gradient-to-r.from-indigo-500.to-violet-500 {
+    background: linear-gradient(to right, #6366f1, #8b5cf6);
+  }
+  
+  /* Purple to Blue (Future theme) */
+  .bg-gradient-to-r.from-purple-500.to-blue-500 {
+    background: linear-gradient(to right, #a855f7, #3b82f6);
   }
 
-  @media (min-width: 768px) {
-    .p-card-responsive {
-      padding: var(--card-padding-desktop);
-    }
-  }
-
-  .py-section {
-    padding-top: var(--section-spacing);
-    padding-bottom: var(--section-spacing);
-  }
-
+  /* WordPress-Inspired Component Spacing - Semantic Utilities */
   .px-button {
     padding-left: var(--button-padding-x);
     padding-right: var(--button-padding-x);
@@ -388,7 +609,48 @@
     padding-bottom: var(--button-padding-y);
   }
 
-  /* Fluid spacing utilities */
+  .py-section {
+    padding-top: var(--section-spacing);
+    padding-bottom: var(--section-spacing);
+  }
+
+  .p-card-responsive {
+    padding: var(--card-padding-mobile);
+  }
+
+  @media (min-width: 768px) {
+    .p-card-responsive {
+      padding: var(--card-padding-desktop);
+    }
+  }
+
+  /* WordPress blockGap Inspired Content Flow Spacing */
+  .gap-block-sm {
+    gap: var(--block-gap-sm);
+  }
+
+  .gap-block-md {
+    gap: var(--block-gap-md);
+  }
+
+  .gap-block-lg {
+    gap: var(--block-gap-lg);
+  }
+
+  /* Section-level spacing for content hierarchy */
+  .space-y-block-sm > * + * {
+    margin-top: var(--block-gap-sm);
+  }
+
+  .space-y-block-md > * + * {
+    margin-top: var(--block-gap-md);
+  }
+
+  .space-y-block-lg > * + * {
+    margin-top: var(--block-gap-lg);
+  }
+
+  /* Comprehensive Fluid Spacing System */
   .p-fluid-xs {
     padding: var(--space-xs);
   }
@@ -417,6 +679,19 @@
     padding: var(--space-3xl);
   }
 
+  .p-fluid-4xl {
+    padding: var(--space-4xl);
+  }
+
+  .p-fluid-5xl {
+    padding: var(--space-5xl);
+  }
+
+  .p-fluid-6xl {
+    padding: var(--space-6xl);
+  }
+
+  /* Vertical Fluid Spacing */
   .py-fluid-xs {
     padding-top: var(--space-xs);
     padding-bottom: var(--space-xs);
@@ -447,6 +722,27 @@
     padding-bottom: var(--space-2xl);
   }
 
+  .py-fluid-3xl {
+    padding-top: var(--space-3xl);
+    padding-bottom: var(--space-3xl);
+  }
+
+  .py-fluid-4xl {
+    padding-top: var(--space-4xl);
+    padding-bottom: var(--space-4xl);
+  }
+
+  .py-fluid-5xl {
+    padding-top: var(--space-5xl);
+    padding-bottom: var(--space-5xl);
+  }
+
+  .py-fluid-6xl {
+    padding-top: var(--space-6xl);
+    padding-bottom: var(--space-6xl);
+  }
+
+  /* Horizontal Fluid Spacing */
   .px-fluid-xs {
     padding-left: var(--space-xs);
     padding-right: var(--space-xs);
@@ -477,6 +773,27 @@
     padding-right: var(--space-2xl);
   }
 
+  .px-fluid-3xl {
+    padding-left: var(--space-3xl);
+    padding-right: var(--space-3xl);
+  }
+
+  .px-fluid-4xl {
+    padding-left: var(--space-4xl);
+    padding-right: var(--space-4xl);
+  }
+
+  .px-fluid-5xl {
+    padding-left: var(--space-5xl);
+    padding-right: var(--space-5xl);
+  }
+
+  .px-fluid-6xl {
+    padding-left: var(--space-6xl);
+    padding-right: var(--space-6xl);
+  }
+
+  /* Margin Fluid Spacing */
   .mb-fluid-xs {
     margin-bottom: var(--space-xs);
   }
@@ -499,6 +816,10 @@
 
   .mb-fluid-2xl {
     margin-bottom: var(--space-2xl);
+  }
+
+  .mb-fluid-3xl {
+    margin-bottom: var(--space-3xl);
   }
 
   .mt-fluid-xs {
@@ -525,8 +846,13 @@
     margin-top: var(--space-2xl);
   }
 
+  .mt-fluid-3xl {
+    margin-top: var(--space-3xl);
+  }
+
+  /* Gap Fluid Spacing - Enhanced with XS variant */
   .gap-fluid-xs {
-    gap: var(--space-xs);
+    gap: calc(var(--space-xs) * 0.5); /* Half of --space-xs for tighter spacing */
   }
 
   .gap-fluid-sm {
@@ -549,6 +875,76 @@
     gap: var(--space-2xl);
   }
 
+  .gap-fluid-3xl {
+    gap: var(--space-3xl);
+  }
+
+  /* REDUCED HORIZONTAL SPACING CLASSES - Half the original values */
+  /* Use these for tighter, more condensed layouts across the site */
+  
+  .px-fluid-xs-half {
+    padding-left: calc(var(--space-xs) * 0.5);
+    padding-right: calc(var(--space-xs) * 0.5);
+  }
+
+  .px-fluid-sm-half {
+    padding-left: calc(var(--space-sm) * 0.5);
+    padding-right: calc(var(--space-sm) * 0.5);
+  }
+
+  .px-fluid-md-half {
+    padding-left: calc(var(--space-md) * 0.5);
+    padding-right: calc(var(--space-md) * 0.5);
+  }
+
+  .px-fluid-lg-half {
+    padding-left: calc(var(--space-lg) * 0.5);
+    padding-right: calc(var(--space-lg) * 0.5);
+  }
+
+  .px-fluid-xl-half {
+    padding-left: calc(var(--space-xl) * 0.5);
+    padding-right: calc(var(--space-xl) * 0.5);
+  }
+
+  .px-fluid-2xl-half {
+    padding-left: calc(var(--space-2xl) * 0.5);
+    padding-right: calc(var(--space-2xl) * 0.5);
+  }
+
+  .px-fluid-3xl-half {
+    padding-left: calc(var(--space-3xl) * 0.5);
+    padding-right: calc(var(--space-3xl) * 0.5);
+  }
+
+  .gap-fluid-xs-half {
+    gap: calc(var(--space-xs) * 0.5);
+  }
+
+  .gap-fluid-sm-half {
+    gap: calc(var(--space-sm) * 0.5);
+  }
+
+  .gap-fluid-md-half {
+    gap: calc(var(--space-md) * 0.5);
+  }
+
+  .gap-fluid-lg-half {
+    gap: calc(var(--space-lg) * 0.5);
+  }
+
+  .gap-fluid-xl-half {
+    gap: calc(var(--space-xl) * 0.5);
+  }
+
+  .gap-fluid-2xl-half {
+    gap: calc(var(--space-2xl) * 0.5);
+  }
+
+  .gap-fluid-3xl-half {
+    gap: calc(var(--space-3xl) * 0.5);
+  }
+
   /* Animation utilities */
   @keyframes subtle-float {
     0%,
@@ -563,6 +959,23 @@
   .animate-subtle-float {
     animation: subtle-float 3s ease-in-out infinite;
   }
+
+  /* Fixed ScrollDownArrow animation - preserves translateX(-50%) positioning */
+  @keyframes scroll-down-arrow {
+    0%,
+    100% {
+      transform: translateX(-50%) translateY(0px);
+    }
+    50% {
+      transform: translateX(-50%) translateY(-8px);
+    }
+  }
+
+  .animate-scroll-down-arrow {
+    animation: scroll-down-arrow 3s ease-in-out infinite;
+  }
+
+
 
   /* Scrollbar utilities */
   .scrollbar-hide {
@@ -580,6 +993,185 @@
 
   .snap-center {
     scroll-snap-align: center;
+  }
+
+  /* WCAG Accessibility Color System */
+  .text-gray-800 {
+    color: #1f2937; /* AAA compliant (7:1) for titles */
+  }
+
+  .text-gray-700 {
+    color: #374151; /* AA compliant (4.5:1) for body text */
+  }
+
+  .text-gray-600 {
+    color: #4b5563; /* AA compliant (4.5:1) for secondary text */
+  }
+
+  .text-pink-700 {
+    color: #be185d; /* AA compliant (4.5:1) for accent text */
+  }
+
+  .text-purple-700 {
+    color: #7c3aed; /* AA compliant (4.5:1) for accent text */
+  }
+
+  .text-blue-700 {
+    color: #1d4ed8; /* AA compliant (4.5:1) for link text */
+  }
+
+  .text-green-700 {
+    color: #15803d; /* AA compliant (4.5:1) for success text */
+  }
+
+  .text-red-700 {
+    color: #b91c1c; /* AA compliant (4.5:1) for error text */
+  }
+
+  .text-teal-700 {
+    color: #0f766e; /* AA compliant (4.5:1) for quote text */
+  }
+
+  /* Line clamp utilities for text truncation */
+  .line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .line-clamp-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  /* Prose styling for blog content with variable font weights */
+  .prose {
+    color: #374151;
+    max-width: none;
+  }
+
+  .prose h1,
+  .prose h2,
+  .prose h3,
+  .prose h4,
+  .prose h5,
+  .prose h6 {
+    font-family: var(--font-heading) !important;
+    color: #1f2937;
+    margin-top: 2em;
+    margin-bottom: 1em;
+    line-height: 1.3;
+  }
+
+  .prose h1 {
+    font-size: var(--text-4xl);
+    font-weight: var(--font-weight-bold);
+  }
+
+  .prose h2 {
+    font-size: var(--text-3xl);
+    font-weight: var(--font-weight-semibold);
+  }
+
+  .prose h3 {
+    font-size: var(--text-2xl);
+    font-weight: var(--font-weight-semibold);
+  }
+
+  .prose h4 {
+    font-size: var(--text-xl);
+    font-weight: var(--font-weight-medium);
+  }
+
+  .prose p {
+    font-family: var(--font-body) !important;
+    font-size: var(--text-base);
+    font-weight: var(--font-weight-regular);
+    line-height: 1.7;
+    margin-bottom: 1.5em;
+  }
+
+  .prose ul,
+  .prose ol {
+    margin-bottom: 1.5em;
+    padding-left: 1.5em;
+  }
+
+  .prose li {
+    font-family: var(--font-body) !important;
+    font-size: var(--text-base);
+    font-weight: var(--font-weight-regular);
+    line-height: 1.7;
+    margin-bottom: 0.5em;
+  }
+
+  .prose blockquote {
+    border-left: 4px solid #ec4899;
+    padding-left: 1.5em;
+    margin: 1.5em 0;
+    font-style: italic;
+    font-weight: var(--font-weight-book); /* Custom weight for quotes */
+    color: #6b7280;
+  }
+
+  .prose code {
+    background-color: #f3f4f6;
+    padding: 0.25em 0.5em;
+    border-radius: 0.375rem;
+    font-size: 0.875em;
+    color: #e11d48;
+  }
+
+  .prose pre {
+    background-color: #1f2937;
+    color: #f9fafb;
+    padding: 1.5em;
+    border-radius: 0.75rem;
+    overflow-x: auto;
+    margin: 1.5em 0;
+  }
+
+  .prose pre code {
+    background-color: transparent;
+    color: inherit;
+    padding: 0;
+  }
+
+  .prose a {
+    color: #ec4899;
+    text-decoration: underline;
+    font-weight: var(--font-weight-medium);
+  }
+
+  .prose a:hover {
+    color: #be185d;
+    font-weight: var(--font-weight-semibold);
+  }
+
+  .prose strong {
+    font-weight: var(--font-weight-semibold);
+    color: #1f2937;
+  }
+
+  .prose em {
+    font-style: italic;
+    font-weight: var(--font-weight-book); /* Subtle emphasis with custom weight */
+  }
+
+  .prose img {
+    border-radius: 0.75rem;
+    margin: 1.5em 0;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+  }
+
+  .prose hr {
+    border: none;
+    height: 1px;
+    background: linear-gradient(to right, transparent, #e5e7eb, transparent);
+    margin: 2em 0;
   }
 }
 
@@ -662,4 +1254,46 @@ select:focus-visible {
   outline: 2px solid #ec4899;
   outline-offset: 2px;
   border-radius: 4px;
+}
+
+/* Portfolio Pagination Consistency Fix - Force consistent padding across all pagination elements */
+[data-slot="pagination-link"] {
+  width: auto !important;
+  min-width: 0 !important;
+  padding-left: 0.75rem !important; /* px-3 */
+  padding-right: 0.75rem !important; /* px-3 */
+  padding-top: 0.5rem !important; /* py-2 */
+  padding-bottom: 0.5rem !important; /* py-2 */
+}
+
+/* Ensure Previous/Next buttons also match */
+[data-slot="pagination-link"]:has(.lucide-chevron-left),
+[data-slot="pagination-link"]:has(.lucide-chevron-right) {
+  padding-left: 0.75rem !important; /* px-3 */
+  padding-right: 0.75rem !important; /* px-3 */
+  width: auto !important;
+  min-width: 0 !important;
+}
+
+/* Large Logo Height Classes for 3x Larger Logos */
+.h-24 {
+  height: 6rem; /* 96px - 3x the sm size (32px) */
+}
+
+.h-30 {
+  height: 7.5rem; /* 120px - 3x the md size (40px) */
+}
+
+.h-36 {
+  height: 9rem; /* 144px - 3x the lg size (48px) */
+}
+
+.h-15 {
+  height: 3.75rem; /* 60px - Half of h-30 for mobile menu */
+}
+
+/* Header Logo Width Class for 220px Wide Logo */
+.w-header-logo {
+  width: 220px; /* Specific width for header logo */
+  height: auto; /* Maintain aspect ratio */
 }

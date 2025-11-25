@@ -348,22 +348,3 @@ export function AccessibleButton({
   );
 }
 
-// Component for accessible skip links
-export function SkipLinks() {
-  return (
-    <>
-      <a
-        href="#main-content"
-        className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 bg-white text-gray-900 px-4 py-2 rounded-md shadow-lg font-medium text-sm border-2 border-pink-500"
-      >
-        Skip to main content
-      </a>
-      <a
-        href="#main-navigation"
-        className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-40 focus:z-50 bg-white text-gray-900 px-4 py-2 rounded-md shadow-lg font-medium text-sm border-2 border-pink-500"
-      >
-        Skip to navigation
-      </a>
-    </>
-  );
-}

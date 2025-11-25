@@ -8,6 +8,7 @@
 
 import React, { useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { usePortfolioImageUrl } from "./PortfolioImage";
 
 /**
  * Image interface for slider functionality
@@ -90,6 +91,7 @@ export function SliderCard({
     null,
   );
   const [touchEnd, setTouchEnd] = useState<number | null>(null);
+  const [isSwiping, setIsSwiping] = useState(false);
 
   // Handle legacy single image format
   const images: SliderImage[] =
@@ -113,8 +115,13 @@ export function SliderCard({
     description: data.description,
   };
 
-  // Minimum swipe distance for touch navigation
-  const minSwipeDistance = 50;
+
+
+  // Resolve image URL for CSS background usage
+  const resolvedImageUrl = usePortfolioImageUrl(currentImage.src);
+
+  // Minimum swipe distance for touch navigation - reduced for better mobile responsiveness
+  const minSwipeDistance = 30;
 
   /**
    * Handle touch start for swipe gesture
@@ -122,19 +129,42 @@ export function SliderCard({
   const onTouchStart = (e: React.TouchEvent) => {
     setTouchEnd(null);
     setTouchStart(e.targetTouches[0].clientX);
+    setIsSwiping(false);
+    // Prevent scrolling while swiping horizontally
+    e.currentTarget.style.touchAction = 'pan-y';
   };
 
   /**
    * Handle touch move for swipe gesture
    */
   const onTouchMove = (e: React.TouchEvent) => {
-    setTouchEnd(e.targetTouches[0].clientX);
+    if (!touchStart) return;
+    
+    const currentTouch = e.targetTouches[0].clientX;
+    setTouchEnd(currentTouch);
+    
+    // Calculate current swipe distance
+    const distance = Math.abs(touchStart - currentTouch);
+    
+    // If we're starting to swipe horizontally, prevent vertical scrolling and set swiping state
+    if (distance > 10) {
+      e.preventDefault();
+      setIsSwiping(true);
+    }
   };
 
   /**
    * Handle touch end and execute swipe navigation
    */
-  const onTouchEnd = () => {
+  const onTouchEnd = (e: React.TouchEvent) => {
+    // Reset touch action and swiping state
+    e.currentTarget.style.touchAction = 'auto';
+    
+    // Delay hiding the swiping state to allow for smooth transition
+    setTimeout(() => {
+      setIsSwiping(false);
+    }, 300);
+    
     if (!touchStart || !touchEnd) return;
 
     const distance = touchStart - touchEnd;
@@ -143,9 +173,17 @@ export function SliderCard({
 
     if (isLeftSwipe && hasMultipleImages) {
       goToNext();
+      // Haptic feedback on supported devices
+      if ('vibrate' in navigator) {
+        navigator.vibrate(50);
+      }
     }
     if (isRightSwipe && hasMultipleImages) {
       goToPrevious();
+      // Haptic feedback on supported devices
+      if ('vibrate' in navigator) {
+        navigator.vibrate(50);
+      }
     }
   };
 
@@ -200,7 +238,7 @@ export function SliderCard({
 
   return (
     <div
-      className={`group cursor-pointer bg-white/80 backdrop-blur-sm rounded-3xl p-fluid-md shadow-lg hover:shadow-xl transition-all duration-300 border border-white/50 ${className}`}
+      className={`group cursor-pointer bg-white/80 backdrop-blur-sm rounded-xl p-fluid-md shadow-lg hover:shadow-xl transition-all duration-300 border border-white/50 ${className}`}
       onClick={() => onImageClick(currentImageIndex)}
       onKeyDown={handleKeyDown}
       tabIndex={0}
@@ -209,62 +247,92 @@ export function SliderCard({
     >
       {/* Image Container with Slider */}
       <div
-        className="relative w-full aspect-square bg-cover bg-center rounded-2xl shadow-lg transition-transform group-hover:scale-105 mb-fluid-md ring-4 ring-white/50 overflow-hidden"
+        className="relative w-full aspect-square bg-cover bg-center rounded-lg shadow-lg transition-transform duration-500 group-hover:scale-105 mb-fluid-md ring-4 ring-white/50 overflow-hidden touch-manipulation select-none"
         style={{
-          backgroundImage: `url('${currentImage.src}')`,
+          backgroundImage: `url('${resolvedImageUrl}')`,
+          touchAction: 'pan-y', // Allow vertical scrolling but handle horizontal swipes
+          userSelect: 'none', // Prevent text selection during swipe
+          WebkitUserSelect: 'none',
+          msUserSelect: 'none',
         }}
         onTouchStart={onTouchStart}
         onTouchMove={onTouchMove}
         onTouchEnd={onTouchEnd}
       >
+        {/* Category Chip - Top right corner (always visible when category exists) */}
+        {data.category && (
+          <div className="absolute top-3 right-3 bg-gradient-pink-purple-blue text-white text-xs px-3 py-1.5 rounded-full font-medium shadow-lg backdrop-blur-sm z-20">
+            {data.category}
+          </div>
+        )}
+
         {/* Multi-image Navigation Controls */}
         {hasMultipleImages && (
           <>
-            {/* Desktop Navigation Arrows */}
+            {/* Desktop Navigation Arrows - Hover only with reduced opacity */}
             <div className="hidden sm:block">
               <button
                 onClick={goToPrevious}
-                className="absolute left-3 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/90 hover:bg-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-offset-2 focus:ring-offset-black/20 z-10"
+                className="absolute left-3 top-1/2 -translate-y-1/2 w-8 h-8 bg-white/80 hover:bg-white/90 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-60 hover:opacity-80 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-offset-2 focus:ring-offset-black/20 shadow-md hover:shadow-lg z-10"
                 aria-label="Previous image"
                 tabIndex={-1}
               >
-                <ChevronLeft className="w-6 h-6 text-gray-700" />
+                <ChevronLeft className="w-5 h-5 text-gray-700" />
               </button>
 
               <button
                 onClick={goToNext}
-                className="absolute right-3 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/90 hover:bg-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-offset-2 focus:ring-offset-black/20 z-10"
+                className="absolute right-3 top-1/2 -translate-y-1/2 w-8 h-8 bg-white/80 hover:bg-white/90 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-60 hover:opacity-80 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-offset-2 focus:ring-offset-black/20 shadow-md hover:shadow-lg z-10"
                 aria-label="Next image"
                 tabIndex={-1}
               >
-                <ChevronRight className="w-6 h-6 text-gray-700" />
+                <ChevronRight className="w-5 h-5 text-gray-700" />
               </button>
             </div>
 
-            {/* Mobile Swipe Indicator */}
-            <div className="sm:hidden absolute top-3 left-3 bg-black/60 text-white text-xs px-2 py-1 rounded-full opacity-80">
-              Swipe for more
+            {/* Mobile Indicator - Swipe text or Counter based on swiping state */}
+            <div className="sm:hidden absolute top-3 left-3 bg-black/70 text-white text-xs px-3 py-1.5 rounded-full opacity-90 backdrop-blur-sm transition-all duration-300">
+              {isSwiping ? (
+                // Show counter when swiping
+                <span>{currentImageIndex + 1}/{images.length}</span>
+              ) : (
+                // Show swipe indicator when not swiping
+                <span className="flex items-center gap-1">
+                  <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16l-4-4m0 0l4-4m-4 4h18" />
+                  </svg>
+                  Swipe
+                  <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                  </svg>
+                </span>
+              )}
             </div>
 
-            {/* Pagination Dots */}
-            <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-2 z-10">
+            {/* Simple Pagination Dots - Smaller with reduced opacity */}
+            <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1 z-10">
               {images.map((_, index) => (
                 <button
                   key={index}
                   onClick={(e) => goToImage(index, e)}
-                  className={`w-2.5 h-2.5 rounded-full transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-black/20 ${
+                  className={`transition-all duration-300 focus:outline-none focus:ring-1 focus:ring-white focus:ring-offset-1 focus:ring-offset-black/20 touch-manipulation rounded-full ${
                     index === currentImageIndex
-                      ? "bg-white scale-125 shadow-lg"
-                      : "bg-white/60 hover:bg-white/80"
+                      ? "w-2 h-2 bg-white/80 shadow-sm"
+                      : "w-2 h-2 bg-white/40 hover:bg-white/60"
                   }`}
+                  style={{ 
+                    minWidth: '12px', 
+                    minHeight: '12px',
+                    touchAction: 'manipulation'
+                  }}
                   aria-label={`Go to image ${index + 1} of ${images.length}`}
                   tabIndex={-1}
                 />
               ))}
             </div>
 
-            {/* Image Counter */}
-            <div className="absolute top-3 right-3 bg-black/60 text-white text-xs px-2 py-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+            {/* Desktop Image Counter - Hover only with reduced opacity */}
+            <div className="hidden sm:block absolute top-3 left-3 bg-black/60 text-white text-xs px-2 py-1 rounded-full opacity-0 group-hover:opacity-70 transition-opacity duration-300">
               {currentImageIndex + 1}/{images.length}
             </div>
           </>
@@ -285,7 +353,7 @@ export function SliderCard({
           </p>
         )}
 
-        <p className="text-fluid-base font-body font-normal text-gray-500 leading-relaxed">
+        <p className="text-body-guideline font-body font-normal text-gray-500 leading-relaxed">
           {data.description}
         </p>
       </div>

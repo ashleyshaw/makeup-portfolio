@@ -257,15 +257,15 @@ export function HeroLayout({
     );
   };
   const sizeClasses = {
-    sm: "py-fluid-2xl px-fluid-xl",
-    md: "py-fluid-3xl px-fluid-xl",
-    lg: "py-fluid-4xl px-fluid-xl",
-    xl: "py-fluid-5xl px-fluid-xl",
+    sm: "py-fluid-2xl px-fluid-md",
+    md: "py-fluid-3xl px-fluid-md",
+    lg: "py-fluid-4xl px-fluid-md",
+    xl: "py-fluid-5xl px-fluid-md",
   };
 
   // Fullscreen mode overrides size classes
   const containerClasses = fullscreen
-    ? "min-h-screen flex items-center justify-center px-fluid-lg py-0"
+    ? "min-h-screen flex items-center justify-center px-fluid-md py-0"
     : sizeClasses[size];
 
   const backgroundClass = backgroundGradient
@@ -294,7 +294,7 @@ export function HeroLayout({
   const layoutClasses = {
     center: "text-center",
     left: "text-left",
-    split: "grid lg:grid-cols-2 gap-fluid-2xl items-center",
+    split: "grid lg:grid-cols-2 gap-fluid-xl items-center",
   };
 
   const contentMaxWidth = {
@@ -305,7 +305,7 @@ export function HeroLayout({
 
   return (
     <section
-      className={`relative overflow-hidden ${backgroundClass} ${containerClasses} ${className}`}
+      className={`relative overflow-x-hidden min-h-screen lg:h-screen flex flex-col justify-center ${backgroundClass} ${containerClasses} ${className}`}
     >
       {/* Decorative Elements */}
       {decorativeElements && (
@@ -325,27 +325,34 @@ export function HeroLayout({
             className={`${contentMaxWidth[layout]} pt-fluid-lg`}
           >
             <h1
-              className={`text-fluid-5xl font-title font-normal mb-fluid-lg ${titleGradientClass}`}
+              className={`text-fluid-3xl font-title font-normal mb-fluid-md ${titleGradientClass}`}
+              style={{ 
+                fontFamily: 'var(--font-title)'
+              }}
             >
               {title}
             </h1>
 
             {subtitle && (
               <h2
-                className={`text-section-h2 font-heading font-bold leading-tight mb-fluid-lg ${subtitleGradientClass}`}
+                className={`text-section-h2 font-heading font-bold leading-tight mb-fluid-md ${subtitleGradientClass}`}
+                style={{ fontFamily: 'var(--font-heading)' }}
               >
                 {subtitle}
               </h2>
             )}
 
             {description && (
-              <p className="text-body-guideline font-body font-normal text-gray-600 leading-relaxed mb-fluid-lg">
+              <p 
+                className="text-body-guideline font-body font-normal text-gray-600 leading-relaxed mb-fluid-md"
+                style={{ fontFamily: 'var(--font-body)' }}
+              >
                 {description}
               </p>
             )}
 
             {actions && (
-              <div className="flex flex-wrap gap-4 justify-center lg:justify-start">
+              <div className="flex flex-wrap gap-4 justify-start">
                 {actions}
               </div>
             )}
@@ -382,6 +389,7 @@ export function HeroLayout({
           }
         />
       )}
+
 
       {/* Portfolio Lightbox */}
       {enableLightbox && (

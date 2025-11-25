@@ -90,10 +90,10 @@ export function SectionCard({
       />
       
       <div className="max-w-6xl mx-auto">
-        <div className={`bg-white/80 backdrop-blur-sm rounded-3xl p-fluid-2xl shadow-lg border-2 border-gray-200 relative`}>
+        <div className={`bg-white/80 backdrop-blur-sm rounded-xl p-fluid-md shadow-lg border-2 border-gray-200 relative`}>
           {/* Optional Decorative Border Accent */}
           <div 
-            className={`absolute inset-0 bg-gradient-to-r ${cardBorderClass} opacity-30 rounded-3xl -m-px`}
+            className={`absolute inset-0 bg-gradient-to-r ${cardBorderClass} opacity-30 rounded-xl -m-px`}
             aria-hidden="true"
           />
           

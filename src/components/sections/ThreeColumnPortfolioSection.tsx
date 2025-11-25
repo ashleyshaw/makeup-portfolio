@@ -150,7 +150,7 @@ export function ThreeColumnPortfolioSection({
       <section
         id={section.id}
         data-section={section.id}
-        className={`relative bg-gradient-to-br ${section.backgroundGradient} py-fluid-3xl px-fluid-xl w-full`}
+        className={`relative bg-gradient-to-br ${section.backgroundGradient} py-fluid-3xl px-fluid-md w-full`}
       >
         {/* Background decorations - varies by section */}
         <div
@@ -170,20 +170,20 @@ export function ThreeColumnPortfolioSection({
 
         <div className="max-w-7xl mx-auto relative z-10">
           {/* Section Header */}
-          <div className="text-center mb-fluid-3xl">
+          <div className="text-center mb-fluid-2xl">
             <h2
               id={section.id}
-              className={`text-fluid-4xl sm:text-fluid-5xl lg:text-fluid-6xl font-heading font-bold bg-gradient-to-r ${section.titleGradient} bg-clip-text text-transparent mb-fluid-xl`}
+              className="text-section-h2 font-heading font-bold text-gradient-pink-purple-blue mb-fluid-xl"
             >
               {section.title}
             </h2>
-            <p className="text-fluid-lg font-body font-normal text-gray-600 max-w-3xl mx-auto leading-relaxed">
+            <p className="text-body-guideline font-body font-normal text-gray-600 max-w-3xl mx-auto leading-relaxed">
               {section.description}
             </p>
           </div>
 
           {/* Portfolio Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-fluid-lg max-w-5xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-fluid-lg mb-fluid-xl max-w-5xl mx-auto">
             {portfolioEntries.map((entry, entryIndex) => (
               <SliderCard
                 key={entry.id}
@@ -218,7 +218,7 @@ export function ThreeColumnPortfolioSection({
 
           {/* Section CTA (if applicable) */}
           {section.cta && (
-            <div className="text-center mt-fluid-2xl">
+            <div className="text-center">
               <button
                 className="w-full sm:w-auto inline-flex items-center justify-center text-center px-button py-button font-body font-medium rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg focus:outline-none focus:ring-4 focus:ring-opacity-50 text-white"
                 style={{
